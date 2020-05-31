@@ -13,4 +13,16 @@
 
 
 #技术栈与相关文件
-//待定
+后端：
+web框架：基于springboot的springMVC架构
+数据持久层：mybatis-plus（DAO）+MySQL
+接口文档：swagger2
+
+前端：
+html+css+js
+
+#部分接口
+Swagger文档：http://localhost:8080/swagger-ui.html#/
+
+#TODO:
+数据库设计
