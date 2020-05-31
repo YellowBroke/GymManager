@@ -35,3 +35,7 @@ build/
 /images/
 /images/
 /src/docs/
+
+
+###mvn###
+.mvn/
