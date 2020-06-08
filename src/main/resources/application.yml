@@ -1,4 +1,4 @@
-#数据源
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -7,13 +7,13 @@ spring:
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
 
-# tomcat 参数
+
 server:
   port: 8080
   tomcat:
     max-http-form-post-size: 5MB
 
-#日志
+
 logging:
   level:
     root: info

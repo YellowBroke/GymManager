@@ -8,9 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -29,14 +27,15 @@ public class UserRegisterController {
 
     @ApiOperation("用户注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<SuccessResponse> register(RegisterRequest registerRequest) {
+    public ResponseEntity<SuccessResponse> register(@RequestBody RegisterRequest registerRequest) {
 
         try {
             userBasicService.userRegister(registerRequest);
-            log.info("用户 {} 注册成功",registerRequest.getUsername());
+            //log.info("用户 {} 注册成功",registerRequest.getPhoneNumber());
             return ResponseEntity.ok(new SuccessResponse(true, "注册成功"));
         } catch (UserRegisterException e) {
             return ResponseEntity.ok(new SuccessResponse(false, e.getMessage()));
         }
     }
+
 }

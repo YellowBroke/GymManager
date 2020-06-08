@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RegisterRequest {
 
-    @ApiModelProperty(value = "用户名",name = "username", example = "test")
+    @ApiModelProperty(value = "用户名/手机号码",name = "phone_number", example = "135********")
     private String username;
 
     @ApiModelProperty(value = "密码", name = "password", example = "123456")

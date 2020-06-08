@@ -6,7 +6,7 @@ USE gymmanager;
 CREATE TABLE gymmanager.user_basic
 (
 	user_id VARCHAR(32) NOT NULL COMMENT '用户主键id',
-	username VARCHAR(32) NOT NULL UNIQUE COMMENT '用户名',
+	username VARCHAR(32) NOT NULL UNIQUE COMMENT '用户名/手机号',
 	password VARCHAR(100) NOT NULL COMMENT '密码',
 	PRIMARY KEY(user_id),
 	INDEX username_idx(username)
