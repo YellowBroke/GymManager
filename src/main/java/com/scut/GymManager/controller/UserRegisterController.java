@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 @Api(value = "用户信息接口", tags = "用户信息接口")
 @RestController
 @Slf4j
+//@CrossOrigin
 @RequestMapping(value = "/api/user")
 public class UserRegisterController {
 
@@ -26,6 +27,7 @@ public class UserRegisterController {
     private UserBasicService userBasicService;
 
     @ApiOperation("用户注册")
+    //@CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<SuccessResponse> register(@RequestBody RegisterRequest registerRequest) {
 
