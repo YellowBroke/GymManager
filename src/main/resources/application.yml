@@ -9,7 +9,7 @@ spring:
 
 
 server:
-  //adress: 192.168.1.104
+#  adress: 192.168.1.104
   port: 8080
   tomcat:
     max-http-form-post-size: 5MB
