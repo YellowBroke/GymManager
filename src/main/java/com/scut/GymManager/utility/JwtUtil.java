@@ -40,6 +40,7 @@ public class JwtUtil {
     }
 
 
+    //获取uid
     public String extractUidSubject(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
         String token = null;
@@ -50,6 +51,19 @@ public class JwtUtil {
 
         Claims claims = extractAllClaims(token);
         return claims.get("uid").toString();
+    }
+
+    //获取身份
+    public String extractIdentitySubject(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        String token = null;
+
+        if(authHeader !=null && authHeader.startsWith("Bearer ")){
+            token = authHeader.substring(7);
+        }
+
+        Claims claims = extractAllClaims(token);
+        return claims.get("identity").toString();
     }
 
 

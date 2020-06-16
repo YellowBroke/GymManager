@@ -11,3 +11,23 @@ CREATE TABLE gymmanager.user_basic
 	PRIMARY KEY(user_id),
 	INDEX username_idx(username)
 ) ENGINE = InnoDB;
+
+#管理员账号
+INSERT INTO user_basic VALUES("1","admin","admin");
+
+CREATE TABLE gymmanager.vip_info(
+    vip_id VARCHAR(32) NOT NULL COMMENT '会员主键',
+    id_card VARCHAR(32) NOT NULL COMMENT '身份证号',
+    name VARCHAR(32) NOT NULL COMMENT '名字',
+    phone_number VARCHAR(32) NOT NULL COMMENT '手机号码',
+	birthday DATETIME NOT NULL COMMENT '生日',
+	PRIMARY KEY(vip_id)
+) ENGINE = InnoDB;
+
+CREATE TABLE gymmanager.vip_card(
+    vip_id VARCHAR(32) NOT NULL COMMENT '会员主键',
+    valid_Time INT NOT NULL COMMENT '有效次数',
+    card_Status BOOL NOT NULL DEFAULT(FALSE) COMMENT '卡状态',
+    class_Status BOOL NOT NULL DEFAULT(FALSE) COMMENT '上课状态',
+    PRIMARY KEY(vip_id)
+) ENGINE = InnoDB;

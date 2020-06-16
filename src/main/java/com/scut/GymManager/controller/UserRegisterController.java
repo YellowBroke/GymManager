@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  * create by YellowBroke on 2020年5月31日 22点26分
  */
 
-@Api(value = "用户信息接口", tags = "用户信息接口")
+@Api(value = "用户信息接口",tags = "用户信息接口")
 @RestController
 @Slf4j
 //@CrossOrigin

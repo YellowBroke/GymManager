@@ -1,7 +1,9 @@
 package com.scut.GymManager.controller;
 
 import com.scut.GymManager.dto.JwtResponse;
+import com.scut.GymManager.entity.VipInfo;
 import com.scut.GymManager.mapper.UserBasicMapper;
+import com.scut.GymManager.mapper.VipInfoMapper;
 import com.scut.GymManager.utility.JwtUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,6 +34,9 @@ public class AuthorizationController {
     private UserBasicMapper userBasicMapper;
 
     @Resource
+    private VipInfoMapper vipInfoMapper;
+
+    @Resource
     private JwtUtil jwtUtil;
 
     @ApiOperation("登录认证")
@@ -41,8 +46,17 @@ public class AuthorizationController {
         // authenticationManager最终调用的是JWTUserDetailsService中的loadUserByUsername
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
-        // 获取用户ID
         Map<String, Object> claims = new HashMap<>();
+        //获取uid
+        String uid = userBasicMapper.getUserIdByName(username);
+
+        VipInfo vip = vipInfoMapper.selectById(uid);
+        //判断身份
+        if (vip != null)
+            claims.put("identity","Vip");
+        else
+            claims.put("identity", "Coach");
+
         claims.put("uid", userBasicMapper.getUserIdByName(username));
 
         // 生成Token并返回
