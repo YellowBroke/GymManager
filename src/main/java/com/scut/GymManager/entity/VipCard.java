@@ -22,4 +22,6 @@ public class VipCard {
     private boolean cardStatus;
 
     private boolean classStatus;
+
+    private String lastOnClassId;
 }
