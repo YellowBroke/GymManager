@@ -106,3 +106,4 @@ CREATE TABLE gymmanager.coach_cancel(
     coach_sport_event VARCHAR(100) COMMENT '教练擅长项目',
     PRIMARY KEY(coach_id)
 ) ENGINE = InnoDB;
+
