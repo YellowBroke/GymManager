@@ -2,13 +2,14 @@ package com.scut.GymManager.service;
 
 import java.util.List;
 
+import com.scut.GymManager.dto.CourseRequest;
 import com.scut.GymManager.entity.CourseInfo;
 import com.scut.GymManager.exception.CrudException;
 
 
 public interface CourseInfoService {
    
-	void createCourse(CourseInfo courseInfo) throws CrudException;
+	void createCourse(CourseRequest courseRequest) throws CrudException;
 	
 	void updateCourse(CourseInfo courseInfo) throws CrudException;
 	

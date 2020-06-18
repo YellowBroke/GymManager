@@ -1,5 +1,6 @@
 package com.scut.GymManager.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scut.GymManager.dto.CourseRequest;
 import com.scut.GymManager.entity.CourseInfo;
 import com.scut.GymManager.exception.CrudException;
 import com.scut.GymManager.service.CourseInfoService;
@@ -29,16 +31,16 @@ public class CourseController {
    
 	private Logger log=LoggerFactory.getLogger(getClass());
 	
-	@Autowired
+	@Resource
 	private JwtUtil jwtUtil;
 	
-	@Autowired
+	@Resource
 	private CourseInfoService courseInfoService;
 	@ApiOperation("createCourse")
 	@PostMapping("/create")
-	public SuccessResponse createCourse(@RequestBody CourseInfo courseInfo) throws CrudException
+	public SuccessResponse createCourse(@RequestBody CourseRequest courseRequest) throws CrudException
 	{
-		courseInfoService.createCourse(courseInfo);
+		courseInfoService.createCourse(courseRequest);
 		return ResponseGenerator.getSuccessResponse();
 	}
 	@ApiOperation("updateCourse")

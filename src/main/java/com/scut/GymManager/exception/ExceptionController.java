@@ -7,11 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.scut.GymManager.util.ResponseGenerator;
-import com.scut.GymManager.util.SuccessResponse;
+import com.scut.GymManager.utility.ResponseGenerator;
+import com.scut.GymManager.utility.SuccessResponse;
 
 
-@RestControllerAdvice(basePackages="com.gym.contoller")
+@RestControllerAdvice(basePackages="com.scut.GymManager.contoller")
 public class ExceptionController {
    
 	private Logger log=LoggerFactory.getLogger(getClass());

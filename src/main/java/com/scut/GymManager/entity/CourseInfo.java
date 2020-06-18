@@ -4,18 +4,22 @@ package com.scut.GymManager.entity;
 import java.util.Date;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import lombok.Builder;
 import lombok.Data;
-
 @Data
+@Builder
 @TableName(value="CourseInfo")
 public class CourseInfo {
-	@TableId
+	@TableId(value = "Course_id",type = IdType.ASSIGN_UUID)
 	private String CourseId;
 	
 	private String CourseName;
@@ -25,7 +29,7 @@ public class CourseInfo {
 	private int MaxNumber;
 	
 	private String Classroom;
-	
+
 	private Date Time;
 	
 	public CourseInfo(String CourseId,String CourseName,int CourseTimes,int MaxNumber,String Classroom,Date Time)
@@ -57,13 +61,13 @@ public class CourseInfo {
 	{
 		return Classroom;
 	}
-	public Date getDate()
+	public Date getTime()
 	{
 		return Time;
 	}
 	public String toString()
 	{
 		return "CourseId: "+getCourseId()+" Name: "+getCourseName()+" CourseTimes: "+getCourseTime() +" Nubmer: "+getMaxNumber()+" Classroom: "
-				+getClassroom()+" Date: "+getDate();
+				+getClassroom()+" Date: "+getTime();
 	}
 }
