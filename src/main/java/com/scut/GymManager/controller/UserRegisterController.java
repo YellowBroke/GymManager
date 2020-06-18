@@ -39,5 +39,4 @@ public class UserRegisterController {
             return ResponseEntity.ok(new SuccessResponse(false, e.getMessage()));
         }
     }
-
 }

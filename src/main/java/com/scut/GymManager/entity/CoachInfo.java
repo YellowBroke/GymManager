@@ -4,28 +4,40 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 /**
- * create by YellowBroke on 2020年5月31日 21点44分
+ * create by wxh on 2020年6月18日
  */
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@TableName("user_basic")
-public class UserBasic {
+@TableName("coach_info")
+
+public class CoachInfo {
 
     @JsonIgnore
-    @TableId(value = "user_id",type = IdType.ASSIGN_UUID)
-    private String id;
+    @TableId(value = "coach_id", type = IdType.ASSIGN_UUID)
+    private  String coach_id;
 
-    private String username;
+    private String IDCard;
 
-    @JsonIgnore
-    private String password;
+    private String name;
+
+    private String phoneNumber;
+
+    private Date birthday;
+
+    private String sex;
+
+    private String sportsEvent;
 }
+
