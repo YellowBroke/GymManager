@@ -12,6 +12,4 @@ import org.apache.ibatis.annotations.Select;
 
 public interface CoachMapper extends BaseMapper<CoachInfo>{
 
-    @Select("SELECT coach_id FROM coach_info WHERE coach_name = #{coach_name}")
-    String getCoachIdByName(@Param("coach_name") String coach_name);
 }

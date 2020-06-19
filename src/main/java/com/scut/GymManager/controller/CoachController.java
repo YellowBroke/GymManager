@@ -2,7 +2,10 @@ package com.scut.GymManager.controller;
 
 import com.scut.GymManager.dto.CoachInfoRequest;
 import com.scut.GymManager.dto.SuccessResponse;
+import com.scut.GymManager.entity.CoachInfo;
 import com.scut.GymManager.exception.CoachModifyException;
+import com.scut.GymManager.exception.CreateException;
+import com.scut.GymManager.exception.DeleteException;
 import com.scut.GymManager.service.CoachService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,9 +22,7 @@ import javax.annotation.Resource;
 @Api(value = "教练信息接口", tags = "教练信息接口")
 @RestController
 @Slf4j
-//@CrossOrigin
 @RequestMapping(value = "/api/coach")
-
 public class CoachController {
 
     @Resource
@@ -33,32 +34,38 @@ public class CoachController {
 
         try {
             coachService.createCoach(coachInfoRequest);
+            log.info("教练 {} 创建成功", coachInfoRequest.getName());
             return ResponseEntity.ok(new SuccessResponse(true, "创建教练成功"));
-        } catch (CoachModifyException e) {
+        } catch (CreateException e) {
+            log.info("教练 {} 创建失败", coachInfoRequest.getName());
             return ResponseEntity.ok(new SuccessResponse(false, e.getMessage()));
         }
     }
 
     @ApiOperation("修改教练信息")
     @RequestMapping(value = "/modifyCoach", method = RequestMethod.POST)
-    public ResponseEntity<SuccessResponse> modifyCoach(@RequestBody CoachInfoRequest coachInfoRequest) {
+    public ResponseEntity<SuccessResponse> modifyCoach(@RequestBody CoachInfo coachInfo) {
 
         try {
-            coachService.modifyCoach(coachInfoRequest);
+            coachService.modifyCoach(coachInfo);
+            log.info("教练信息修改成功");
             return ResponseEntity.ok(new SuccessResponse(true, "教练信息修改成功"));
         } catch (CoachModifyException e) {
+            log.info("教练信息修改失败");
             return ResponseEntity.ok(new SuccessResponse(false, e.getMessage()));
         }
     }
 
     @ApiOperation("删除教练信息")
-    @RequestMapping(value = "/deleteCoach", method = RequestMethod.POST)
-    public ResponseEntity<SuccessResponse> deleteCoach(@RequestBody CoachInfoRequest coachInfoRequest) {
+    @RequestMapping(value = "/deleteCoach/{coachId}", method = RequestMethod.POST)
+    public ResponseEntity<SuccessResponse> deleteCoach(@PathVariable String coachId) {
 
         try {
-            coachService.deleteCoach(coachInfoRequest.getCoach_id());
+            coachService.deleteCoach(coachId);
+            log.info("教练删除成功");
             return ResponseEntity.ok(new SuccessResponse(true, "教练信息删除成功"));
-        } catch (CoachModifyException e) {
+        } catch (DeleteException e) {
+            log.info("教练删除失败");
             return ResponseEntity.ok(new SuccessResponse(false, e.getMessage()));
         }
     }

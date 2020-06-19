@@ -24,20 +24,19 @@ import java.util.Date;
 
 public class CoachInfo {
 
-    @JsonIgnore
     @TableId(value = "coach_id", type = IdType.ASSIGN_UUID)
-    private  String coach_id;
+    private  String coachId;
 
-    private String IDCard;
+    private String coachIdCard;
 
-    private String name;
+    private String coachName;
 
-    private String phoneNumber;
+    private String coachPhoneNumber;
 
-    private Date birthday;
+    private Date coachBirth;
 
-    private String sex;
+    private String coachSex;
 
-    private String sportsEvent;
+    private String coachSportEvent;
 }
 
