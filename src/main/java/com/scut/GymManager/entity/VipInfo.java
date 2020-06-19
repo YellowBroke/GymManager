@@ -19,11 +19,11 @@ public class VipInfo {
     @TableId("vip_id")
     private String vipId;
 
-    private String idCard;
+    private String vipIdCard;
 
-    private String name;
+    private String vipName;
 
-    private String phoneNumber;
+    private String vipPhoneNumber;
 
-    private Date birthday;
+    private Date vipBirthday;
 }
