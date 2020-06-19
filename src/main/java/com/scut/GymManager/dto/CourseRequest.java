@@ -7,20 +7,23 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class CourseRequest {
 private String CourseName;
 	
-	private int CourseTimes;
+	private int courseTime;
+	
+	private String coachId;
 	
 	private int MaxNumber;
 	
 	private String Classroom;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private Date Time;
-	public CourseRequest(String CourseName,int CourseTimes,int MaxNumber,String Classroom,Date Time)
+	
+	private int studentNum;
+	public CourseRequest(String CourseName,int CourseTimes,int MaxNumber,String Classroom,String coachId,int studentNum)
 	{
 		this.Classroom=Classroom;
 		this.CourseName=CourseName;
-		this.CourseTimes=CourseTimes;
+		this.courseTime=CourseTimes;
 		this.MaxNumber=MaxNumber;
-		this.Time=Time;
+		this.coachId=coachId;
+		this.studentNum=studentNum;
 	}
 	public String getCourseName() {
 		return CourseName;
@@ -29,10 +32,10 @@ private String CourseName;
 		CourseName = courseName;
 	}
 	public int getCourseTimes() {
-		return CourseTimes;
+		return courseTime;
 	}
 	public void setCourseTimes(int courseTimes) {
-		CourseTimes = courseTimes;
+		courseTime = courseTimes;
 	}
 	public int getMaxNumber() {
 		return MaxNumber;
@@ -46,10 +49,16 @@ private String CourseName;
 	public void setClassroom(String classroom) {
 		Classroom = classroom;
 	}
-	public Date getTime() {
-		return Time;
+	public String getCoachId() {
+		return coachId;
 	}
-	public void setTime(Date time) {
-		Time = time;
+	public void setCoachId(String coachId) {
+		this.coachId = coachId;
+	}
+	public int getStudentNum() {
+		return studentNum;
+	}
+	public void setStudentNum(int studentNum) {
+		this.studentNum = studentNum;
 	}
 }

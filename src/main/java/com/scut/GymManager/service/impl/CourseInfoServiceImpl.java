@@ -25,8 +25,8 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 	private CourseInfoMapper courseInfoMapper;
 	@Override
 	public void createCourse(CourseRequest courseRequest) throws CrudException {
-		CourseInfo courseInfo=CourseInfo.builder().CourseName(courseRequest.getCourseName()).CourseTimes(courseRequest.getCourseTimes())
-				.MaxNumber(courseRequest.getMaxNumber()).Classroom(courseRequest.getClassroom()).Time(courseRequest.getTime())
+		CourseInfo courseInfo=CourseInfo.builder().CourseName(courseRequest.getCourseName()).CourseTime(courseRequest.getCourseTimes())
+				.MaxNumber(courseRequest.getMaxNumber()).Classroom(courseRequest.getClassroom()).coachId(courseRequest.getCoachId()).studentNum(courseRequest.getStudentNum())
 				.build();
 		int x=courseInfoMapper.insert(courseInfo);
 		if(x==0) throw new CrudException("insert 出错");
