@@ -35,42 +35,4 @@ public class CoachInfoRequest {
 
     @ApiModelProperty(value = "擅长项目", name = "coachSportEvent", example = "跳绳")
     private String coachSportEvent;
-
-    public CoachInfoRequest(String coachId, String coachIDCard, String coachName, String coachPhoneNumber, Date coachBirth, String coachSex, String coachSportEvent){
-        this.coachId = coachId;
-        this.coachIDCard = coachIDCard;
-        this.coachName = coachName;
-        this.coachPhoneNumber = coachPhoneNumber;
-        this.coachBirth = coachBirth;
-        this.coachSex = coachSex;
-        this.coachSportEvent = coachSportEvent;
-    }
-
-    public String getCoachId(){
-        return coachId;
-    }
-
-    public String getCoachIDCard(){
-        return coachIDCard;
-    }
-
-    public String getCoachName(){
-        return coachName;
-    }
-
-    public String getCoachPhoneNumber(){
-        return coachPhoneNumber;
-    }
-
-    public Date getCoachBirth(){
-        return coachBirth;
-    }
-
-    public String getCoachSex(){
-        return coachSex;
-    }
-
-    public String getCoachSportEvent(){
-        return coachSportEvent;
-    }
 }
