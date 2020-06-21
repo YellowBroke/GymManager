@@ -9,30 +9,68 @@ import java.util.Date;
 /**
  * create by wxh on 2020年6月18日
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Data                   //不用手写Getter，Setter等方法
+@NoArgsConstructor      //创建无参构造函数
+//@AllArgsConstructor     //添加含有所有已声明字段属性参数
 @Builder
 public class CoachInfoRequest {
 
-    @ApiModelProperty(value = "教练id", name = "coach_id")
-    private String coach_id;
+    @ApiModelProperty(value = "教练id", name = "coachId")
+    private String coachId;
 
-    @ApiModelProperty(value = "身份证号码", name = "IDCard", example = "440981************")
-    private String IDCard;
+    @ApiModelProperty(value = "身份证号码", name = "coachIDCard", example = "440981************")
+    private String coachIDCard;
 
-    @ApiModelProperty(value = "姓名", name = "name",example = "wxh")
-    private String name;
+    @ApiModelProperty(value = "姓名", name = "coachName",example = "wxh")
+    private String coachName;
 
-    @ApiModelProperty(value = "用户名/手机号码", name = "phoneNumber", example = "184********")
-    private String phoneNumber;
+    @ApiModelProperty(value = "用户名/手机号码", name = "coachPhoneNumber", example = "184********")
+    private String coachPhoneNumber;
 
-    @ApiModelProperty(value = "出生日期", name = "birthday", example = "2020-06-18")
-    private Date birthday;
+    @ApiModelProperty(value = "出生日期", name = "coachBirth", example = "2020-06-18")
+    private Date coachBirth;
 
-    @ApiModelProperty(value = "性别", name = "sex", example = "男")
-    private String sex;
+    @ApiModelProperty(value = "性别", name = "coachSex", example = "男")
+    private String coachSex;
 
-    @ApiModelProperty(value = "擅长项目", name = "sportsEvent", example = "跳绳")
-    private String sportsEvent;
+    @ApiModelProperty(value = "擅长项目", name = "coachSportEvent", example = "跳绳")
+    private String coachSportEvent;
+
+    public CoachInfoRequest(String coachId, String coachIDCard, String coachName, String coachPhoneNumber, Date coachBirth, String coachSex, String coachSportEvent){
+        this.coachId = coachId;
+        this.coachIDCard = coachIDCard;
+        this.coachName = coachName;
+        this.coachPhoneNumber = coachPhoneNumber;
+        this.coachBirth = coachBirth;
+        this.coachSex = coachSex;
+        this.coachSportEvent = coachSportEvent;
+    }
+
+    public String getCoachId(){
+        return coachId;
+    }
+
+    public String getCoachIDCard(){
+        return coachIDCard;
+    }
+
+    public String getCoachName(){
+        return coachName;
+    }
+
+    public String getCoachPhoneNumber(){
+        return coachPhoneNumber;
+    }
+
+    public Date getCoachBirth(){
+        return coachBirth;
+    }
+
+    public String getCoachSex(){
+        return coachSex;
+    }
+
+    public String getCoachSportEvent(){
+        return coachSportEvent;
+    }
 }

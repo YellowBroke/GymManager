@@ -32,12 +32,13 @@ public class CoachController {
     @RequestMapping(value = "/createCoach", method = RequestMethod.POST)
     public ResponseEntity<SuccessResponse> createCoach(@RequestBody CoachInfoRequest coachInfoRequest) {
 
+        
         try {
             coachService.createCoach(coachInfoRequest);
-            log.info("教练 {} 创建成功", coachInfoRequest.getName());
+            log.info("教练 {} 创建成功", coachInfoRequest.getCoachName());
             return ResponseEntity.ok(new SuccessResponse(true, "创建教练成功"));
         } catch (CreateException e) {
-            log.info("教练 {} 创建失败", coachInfoRequest.getName());
+            log.info("教练 {} 创建失败", coachInfoRequest.getCoachName());
             return ResponseEntity.ok(new SuccessResponse(false, e.getMessage()));
         }
     }
@@ -48,10 +49,10 @@ public class CoachController {
 
         try {
             coachService.modifyCoach(coachInfo);
-            log.info("教练信息修改成功");
+            log.info("教练{}信息修改成功", coachInfo.getCoachName());
             return ResponseEntity.ok(new SuccessResponse(true, "教练信息修改成功"));
         } catch (CoachModifyException e) {
-            log.info("教练信息修改失败");
+            log.info("教练{}信息修改失败", coachInfo.getCoachName());
             return ResponseEntity.ok(new SuccessResponse(false, e.getMessage()));
         }
     }

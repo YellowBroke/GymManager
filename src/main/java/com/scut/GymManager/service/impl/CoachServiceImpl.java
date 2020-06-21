@@ -39,12 +39,12 @@ public class CoachServiceImpl implements CoachService{
 
         CoachInfo coachInfo= CoachInfo.builder()
                 .coachId(coachId)
-                .coachIdCard(coachInfoRequest.getIDCard())
-                .coachName(coachInfoRequest.getName())
-                .coachPhoneNumber(coachInfoRequest.getPhoneNumber())
-                .coachBirth(coachInfoRequest.getBirthday())
-                .coachSex(coachInfoRequest.getSex())
-                .coachSportEvent(coachInfoRequest.getSportsEvent())
+                .coachIdCard(coachInfoRequest.getCoachIDCard())
+                .coachName(coachInfoRequest.getCoachName())
+                .coachPhoneNumber(coachInfoRequest.getCoachPhoneNumber())
+                .coachBirth(coachInfoRequest.getCoachBirth())
+                .coachSex(coachInfoRequest.getCoachSex())
+                .coachSportEvent(coachInfoRequest.getCoachSportEvent())
                 .build();
 
         if (coachMapper.insert(coachInfo) != 1) {

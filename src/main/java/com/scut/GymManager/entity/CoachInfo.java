@@ -16,14 +16,15 @@ import java.util.Date;
  * create by wxh on 2020年6月18日
  */
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Data                   //不用手写Getter，Setter等方法
+@NoArgsConstructor      //创建无参构造函数
+@AllArgsConstructor     //添加含有所有已声明字段属性参数
 @Builder
 @TableName("coach_info")
 
 public class CoachInfo {
 
+    //自动生成id
     @TableId(value = "coach_id", type = IdType.ASSIGN_UUID)
     private  String coachId;
 
