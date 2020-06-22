@@ -41,7 +41,7 @@ CREATE TABLE gymmanager.course_info(
     coach_id VARCHAR(32) NOT NULL COMMENT '教练id',
     course_name VARCHAR(20) NOT NULL COMMENT '课程名称',
     course_time INT NOT NULL COMMENT '开课次数',
-    max_Number INT NOT NULL COMMENT '最大选课人数',
+    max_number INT NOT NULL COMMENT '最大选课人数',
     student_num INT NOT NULL DEFAULT(0) COMMENT '当前选课人数',
     classroom VARCHAR(20) NOT NULL COMMENT '教室',
     PRIMARY KEY(course_id)
