@@ -4,7 +4,7 @@ package com.scut.GymManager.entity;
 import java.util.Date;
 
 
-
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,8 +18,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
+@NoArgsConstructor
 @TableName(value="course_info")
 public class CourseInfo {
+
     // 自动随机生成id
 	@TableId(value = "course_id",type = IdType.ASSIGN_UUID)
 	private String CourseId;
@@ -35,36 +37,7 @@ public class CourseInfo {
 	private int studentNum;
 	
 	private String Classroom;
-	
 
-	public String getCourseId()
-	{
-		return CourseId;
-	}
-	public String getCourseName()
-	{
-		return CourseName;
-	}
-	public int getCourseTime()
-	{
-		return CourseTime;
-	}
-	public int getMaxNumber()
-	{
-		return MaxNumber;
-	}
-	public String getClassroom()
-	{
-		return Classroom;
-	}
-	public String getCoachId()
-	{
-		return coachId;
-	}
-	public int getStudentNum()
-	{
-		return studentNum;
-	}
 	public String toString()
 	{
 		return "CourseId: "+getCourseId()+" Name: "+getCourseName()+" CourseTimes: "+getCourseTime() +" Nubmer: "+getMaxNumber()+" Classroom: "

@@ -1,26 +1,40 @@
 package com.scut.GymManager.dto;
 
-import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CourseRequest {
 private String CourseName;
-	
-	private int courseTime;
-	
+
+	@ApiModelProperty(value = "开课次数",name = "CourseTime" , example = "10")
+	private int CourseTime;
+
+	@ApiModelProperty(value = "教练id" , name = "coachId" ,example = "************************")
 	private String coachId;
-	
+
+	@ApiModelProperty(value = "最大人数", name = "MaxNumber" , example = "25")
 	private int MaxNumber;
-	
+
+	@ApiModelProperty(value = "教室", name = "Classroom", example = "A1-201")
 	private String Classroom;
-	
+
+	@ApiModelProperty(value = "选课人数", name = "studentNum" , example = "0")
 	private int studentNum;
+
 	public CourseRequest(String CourseName,int CourseTimes,int MaxNumber,String Classroom,String coachId,int studentNum)
 	{
 		this.Classroom=Classroom;
 		this.CourseName=CourseName;
-		this.courseTime=CourseTimes;
+
 		this.MaxNumber=MaxNumber;
 		this.coachId=coachId;
 		this.studentNum=studentNum;
@@ -30,12 +44,6 @@ private String CourseName;
 	}
 	public void setCourseName(String courseName) {
 		CourseName = courseName;
-	}
-	public int getCourseTimes() {
-		return courseTime;
-	}
-	public void setCourseTimes(int courseTimes) {
-		courseTime = courseTimes;
 	}
 	public int getMaxNumber() {
 		return MaxNumber;
@@ -61,4 +69,5 @@ private String CourseName;
 	public void setStudentNum(int studentNum) {
 		this.studentNum = studentNum;
 	}
+
 }
