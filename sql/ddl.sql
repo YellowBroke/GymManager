@@ -14,7 +14,9 @@ CREATE TABLE gymmanager.user_basic
 ) ENGINE = InnoDB;
 
 #管理员账号
-INSERT INTO user_basic VALUES("1","admin","admin");
+#username: admin
+#password: admin
+INSERT INTO user_basic VALUES("1","admin","$2a$10$kd9hAAZavkJ9Lj0X5sb9C.mN7zmopjODKtt1q1ngiWBiQba4BVPmq");
 
 CREATE TABLE gymmanager.vip_info(
     vip_id VARCHAR(32) NOT NULL COMMENT '会员id',
