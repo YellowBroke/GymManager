@@ -3,10 +3,7 @@ package com.scut.GymManager.service;
 import com.scut.GymManager.dto.AttendClassRequest;
 import com.scut.GymManager.dto.JoinRequest;
 import com.scut.GymManager.entity.VipInfo;
-import com.scut.GymManager.exception.FinishClassException;
-import com.scut.GymManager.exception.ModifyException;
-import com.scut.GymManager.exception.OnClassException;
-import com.scut.GymManager.exception.VipJoinException;
+import com.scut.GymManager.exception.*;
 
 public interface VipService {
 
@@ -29,5 +26,33 @@ public interface VipService {
      */
     public void finishClass(String lastOnLessonId) throws FinishClassException;
 
+    /**
+     * 修改会员信息
+     * @param vipInfo
+     * @throws ModifyException
+     */
     public void modifyVipInfo(VipInfo vipInfo) throws ModifyException;
+
+    /**
+     * 会员注销
+     * @param phoneNumber
+     * @throws VipDeleteException
+     */
+    public void deleteVip(String phoneNumber) throws VipDeleteException;
+
+    /**
+     * 会员转卡
+     * @param oldPhone
+     * @param newPhone
+     * @throws VipTransferCardException
+     */
+    public void transferCard(String oldPhone,String newPhone) throws VipTransferCardException;
+
+    /**
+     * 会员卡充值
+     * @param vipID
+     * @param time
+     * @throws VipRenewalException
+     */
+    public void renewal(String vipID,int time)throws VipRenewalException;
 }

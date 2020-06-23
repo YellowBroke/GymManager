@@ -4,10 +4,7 @@ import com.scut.GymManager.dto.AttendClassRequest;
 import com.scut.GymManager.dto.JoinRequest;
 import com.scut.GymManager.dto.SuccessResponse;
 import com.scut.GymManager.entity.VipInfo;
-import com.scut.GymManager.exception.FinishClassException;
-import com.scut.GymManager.exception.ModifyException;
-import com.scut.GymManager.exception.OnClassException;
-import com.scut.GymManager.exception.VipJoinException;
+import com.scut.GymManager.exception.*;
 import com.scut.GymManager.service.VipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -84,6 +81,49 @@ public class VipController {
         } catch (ModifyException e) {
             log.info("会员 {} 信息修改失败", vipInfo.getVipName());
             return ResponseEntity.ok(new SuccessResponse(false, e.getMessage()));
+        }
+    }
+
+    @ApiOperation("会员注销")
+    @RequestMapping(value = "/vipDelete/{phoneNumber}", method = RequestMethod.POST)
+    public ResponseEntity<SuccessResponse> deleteVip(@PathVariable("phoneNumber")String phoneNumber) {
+
+        try {
+            vipService.deleteVip(phoneNumber);
+            log.info("用户注销成功");
+            return ResponseEntity.ok(new SuccessResponse(true, "注销成功"));
+        } catch (VipDeleteException e) {
+            log.info("用户注销失败");
+            return ResponseEntity.ok(new SuccessResponse(false,e.getMessage()));
+        }
+    }
+
+    @ApiOperation("转卡")
+    @RequestMapping(value = "/vipTransfer", method = RequestMethod.POST)
+    public ResponseEntity<SuccessResponse> transferCard(@RequestBody String oldPhone,String newPhone) {
+
+        try {
+            vipService.transferCard(oldPhone,newPhone);
+            log.info("用户转卡成功");
+            return ResponseEntity.ok(new SuccessResponse(true, "转卡成功"));
+        } catch (VipTransferCardException e) {
+            log.info("用户注销失败");
+            return ResponseEntity.ok(new SuccessResponse(false,e.getMessage()));
+        }
+
+    }
+
+    @ApiOperation("会员卡充值")
+    @RequestMapping(value = "/vipRenewal", method = RequestMethod.POST)
+    public ResponseEntity<SuccessResponse> renewal(@RequestBody String vipID,int time) {
+
+        try {
+            vipService.renewal(vipID,time);
+            log.info("用户续费成功");
+            return ResponseEntity.ok(new SuccessResponse(true, "续费成功"));
+        } catch (VipRenewalException e) {
+            log.info("用户续费失败");
+            return ResponseEntity.ok(new SuccessResponse(false,e.getMessage()));
         }
     }
 
