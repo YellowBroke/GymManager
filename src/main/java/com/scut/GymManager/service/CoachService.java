@@ -33,4 +33,11 @@ public interface CoachService {
      * @throws DeleteException
      */
     void deleteCoach(String coach_id) throws DeleteException;
+
+    /**
+     * 管理员查看教练信息
+     * @param phoneNumber
+     * @return
+     */
+    public CoachInfo queryCoachInfoByPhone(String phoneNumber);
 }

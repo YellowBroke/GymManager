@@ -1,7 +1,9 @@
 package com.scut.GymManager.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.scut.GymManager.dto.AttendClassRequest;
 import com.scut.GymManager.dto.JoinRequest;
+import com.scut.GymManager.entity.Takes;
 import com.scut.GymManager.entity.VipInfo;
 import com.scut.GymManager.exception.*;
 
@@ -55,4 +57,13 @@ public interface VipService {
      * @throws VipRenewalException
      */
     public void renewal(String vipID,int time)throws VipRenewalException;
+
+    /**
+     * 会员选课
+     * @param takes
+     * @throws CourseChosenException
+     */
+    public void courseChosen(Takes takes) throws CourseChosenException;
+
+    public VipInfo getVipInfoByPhone(String PhoneNumber) throws QueryException;
 }

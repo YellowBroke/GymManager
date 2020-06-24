@@ -2,15 +2,18 @@ package com.scut.GymManager.service.impl;
 
 import com.scut.GymManager.dto.CoachInfoRequest;
 import com.scut.GymManager.entity.CoachInfo;
+import com.scut.GymManager.entity.UserBasic;
 import com.scut.GymManager.exception.CoachModifyException;
 import com.scut.GymManager.exception.CreateException;
 import com.scut.GymManager.exception.DeleteException;
 import com.scut.GymManager.mapper.CoachMapper;
+import com.scut.GymManager.mapper.UserBasicMapper;
 import com.scut.GymManager.service.CoachService;
 import com.scut.GymManager.utility.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +33,9 @@ public class CoachServiceImpl implements CoachService{
 
     @Resource
     private HttpServletRequest httpServletRequest;
+
+    @Resource
+    private UserBasicMapper userBasicMapper;
 
     @Override
     @Transactional(rollbackFor = {CreateException.class})
@@ -94,5 +100,17 @@ public class CoachServiceImpl implements CoachService{
         if(coachMapper.deleteById(coachId) != 1){
             throw new DeleteException("删除失败");
         }
+    }
+
+    @Override
+    public CoachInfo queryCoachInfoByPhone(String phoneNumber) {
+
+        String uid = jwtUtil.extractUidSubject(this.httpServletRequest);
+
+        if (!uid.equals("1")) {
+            return null;
+        }
+
+        return coachMapper.selectById(userBasicMapper.getUserIdByName(phoneNumber));
     }
 }

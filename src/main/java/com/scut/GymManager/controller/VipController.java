@@ -3,10 +3,12 @@ package com.scut.GymManager.controller;
 import com.scut.GymManager.dto.AttendClassRequest;
 import com.scut.GymManager.dto.JoinRequest;
 import com.scut.GymManager.dto.SuccessResponse;
+import com.scut.GymManager.entity.Takes;
 import com.scut.GymManager.entity.VipInfo;
 import com.scut.GymManager.exception.*;
 import com.scut.GymManager.service.VipService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Scope;
 import lombok.extern.slf4j.Slf4j;
@@ -124,6 +126,32 @@ public class VipController {
         } catch (VipRenewalException e) {
             log.info("用户续费失败");
             return ResponseEntity.ok(new SuccessResponse(false,e.getMessage()));
+        }
+    }
+
+    @ApiOperation("会员选课")
+    @RequestMapping(value = "/courseChosen", method = RequestMethod.POST)
+    public ResponseEntity<SuccessResponse> courseChosen(@RequestBody Takes takes) {
+
+        try {
+            vipService.courseChosen(takes);
+            log.info("选课成功");
+            return ResponseEntity.ok(new SuccessResponse(true, "选课成功"));
+        } catch (CourseChosenException e) {
+            log.info("选课失败");
+            return ResponseEntity.ok(new SuccessResponse(false, e.getMessage()));
+        }
+    }
+
+    @ApiOperation("管理员通过手机号码查询会员信息")
+    @RequestMapping(value = "/queryByPhone/{phoneNumber}",method = RequestMethod.GET)
+    public ResponseEntity<VipInfo> queryVipInfoByPhone(@PathVariable String phoneNumber) {
+
+        try {
+            return ResponseEntity.ok(vipService.getVipInfoByPhone(phoneNumber));
+        } catch (QueryException e) {
+            log.info(e.getMessage());
+            return null;
         }
     }
 

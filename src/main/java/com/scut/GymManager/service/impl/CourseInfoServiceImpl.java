@@ -1,11 +1,19 @@
 package com.scut.GymManager.service.impl;
 
+
+import java.sql.Time;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.scut.GymManager.dto.CourseTimeRequest;
+import com.scut.GymManager.entity.CoachInfo;
+import com.scut.GymManager.entity.CourseTime;
+import com.scut.GymManager.mapper.CourseTimeMapper;
 import com.scut.GymManager.utility.JwtUtil;
+import com.scut.GymManager.utility.UUIDUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +36,13 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 	private CourseInfoMapper courseInfoMapper;
 
 	@Resource
+	private CourseTimeMapper courseTimeMapper;
+
+	@Resource
 	private JwtUtil jwtUtil;
+
+	@Resource
+	private UUIDUtil uuidUtil;
 
 	@Resource
 	private HttpServletRequest httpServletRequest;
@@ -41,7 +55,10 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 		if (!identity.equals("Coach"))
 			throw new CrudException("非教练不能创建课程");
 
+		String courseId = uuidUtil.get32UUIDString();
+
 		CourseInfo courseInfo=CourseInfo.builder()
+				.CourseId(courseId)
 				.CourseName(courseRequest.getCourseName())
 				.CourseTime(courseRequest.getCourseTime())
 				.MaxNumber(courseRequest.getMaxNumber())
@@ -50,7 +67,24 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 				.studentNum(courseRequest.getStudentNum())
 				.build();
 		int x=courseInfoMapper.insert(courseInfo);
-		if(x==0) throw new CrudException("insert 出错");
+		if(x == 0) throw new CrudException("insert 出错");
+
+		//获取课程时间列表
+		List<CourseTimeRequest> timeList = courseRequest.getTimeList();
+
+		//插入课程时间
+		for (CourseTimeRequest courseTimeRequest : timeList) {
+            Time time = new Time(courseTimeRequest.getHour(), courseTimeRequest.getMinute(), courseTimeRequest.getSecond());
+
+            CourseTime courseTime = CourseTime.builder()
+                    .courseId(courseId)
+                    .day(courseTimeRequest.getDay())
+                    .timeSlot(time)
+                    .build();
+
+            if (courseTimeMapper.insert(courseTime) != 1)
+                throw new CrudException("课程时间插入异常");
+        }
 	}
 
 	@Override
@@ -93,5 +127,6 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 	public List<CourseInfo> viewVIPCourseTable(String vipId) {
 		return courseInfoMapper.searchVIPList(vipId);
 	}
+
 
 }

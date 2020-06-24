@@ -10,6 +10,7 @@ import com.scut.GymManager.service.CoachService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.Get;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,5 +69,12 @@ public class CoachController {
             log.info("教练删除失败");
             return ResponseEntity.ok(new SuccessResponse(false, e.getMessage()));
         }
+    }
+
+    @ApiOperation("管理员通过电话号码查看教练信息")
+    @RequestMapping(value = "/queryByPhone/{phoneNumber}",method = RequestMethod.GET)
+    public ResponseEntity<CoachInfo> queryByPhone(@PathVariable String phoneNumber) {
+
+        return ResponseEntity.ok(coachService.queryCoachInfoByPhone(phoneNumber));
     }
 }

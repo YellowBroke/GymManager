@@ -3,15 +3,9 @@ package com.scut.GymManager.service.impl;
 import com.scut.GymManager.dto.AttendClassRequest;
 import com.scut.GymManager.dto.JoinRequest;
 import com.scut.GymManager.dto.JwtResponse;
-import com.scut.GymManager.entity.OnLesson;
-import com.scut.GymManager.entity.UserBasic;
-import com.scut.GymManager.entity.VipCard;
-import com.scut.GymManager.entity.VipInfo;
+import com.scut.GymManager.entity.*;
 import com.scut.GymManager.exception.*;
-import com.scut.GymManager.mapper.OnLessonMapper;
-import com.scut.GymManager.mapper.UserBasicMapper;
-import com.scut.GymManager.mapper.VipCardMapper;
-import com.scut.GymManager.mapper.VipInfoMapper;
+import com.scut.GymManager.mapper.*;
 import com.scut.GymManager.service.VipService;
 import com.scut.GymManager.utility.JwtUtil;
 import com.scut.GymManager.utility.UUIDUtil;
@@ -34,6 +28,9 @@ public class VipServiceImpl implements VipService {
 
     @Resource
     private OnLessonMapper onLessonMapper;
+
+    @Resource
+    private TakesMapper takesMapper;
 
     @Resource
     private HttpServletRequest httpServletRequest;
@@ -248,5 +245,30 @@ public class VipServiceImpl implements VipService {
             throw new VipRenewalException("充值失败请重试");
 
 
+    }
+
+    @Override
+    @Transactional(rollbackFor = {CourseChosenException.class})
+    public void courseChosen(Takes takes) throws CourseChosenException {
+
+        String uid = jwtUtil.extractUidSubject(this.httpServletRequest);
+
+        if (!uid.equals(takes.getVipId()))
+            throw new CourseChosenException("您不能为别人选课");
+
+        if (takesMapper.insert(takes) != 1)
+            throw new CourseChosenException("选课失败");
+
+    }
+
+    @Override
+    public VipInfo getVipInfoByPhone(String phoneNumber) throws QueryException{
+
+        String uid = jwtUtil.extractUidSubject(this.httpServletRequest);
+
+        if (!uid.equals("1"))
+            throw new QueryException("你没有该权限");
+
+        return vipInfoMapper.selectById(userBasicMapper.getUserIdByName(phoneNumber));
     }
 }
