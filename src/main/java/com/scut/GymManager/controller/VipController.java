@@ -3,6 +3,7 @@ package com.scut.GymManager.controller;
 import com.scut.GymManager.dto.AttendClassRequest;
 import com.scut.GymManager.dto.JoinRequest;
 import com.scut.GymManager.dto.SuccessResponse;
+import com.scut.GymManager.dto.TakesRequest;
 import com.scut.GymManager.entity.Takes;
 import com.scut.GymManager.entity.VipInfo;
 import com.scut.GymManager.exception.*;
@@ -131,10 +132,10 @@ public class VipController {
 
     @ApiOperation("会员选课")
     @RequestMapping(value = "/courseChosen", method = RequestMethod.POST)
-    public ResponseEntity<SuccessResponse> courseChosen(@RequestBody Takes takes) {
+    public ResponseEntity<SuccessResponse> courseChosen(@RequestBody TakesRequest takesRequest) {
 
         try {
-            vipService.courseChosen(takes);
+            vipService.courseChosen(takesRequest);
             log.info("选课成功");
             return ResponseEntity.ok(new SuccessResponse(true, "选课成功"));
         } catch (CourseChosenException e) {
@@ -153,6 +154,12 @@ public class VipController {
             log.info(e.getMessage());
             return null;
         }
+    }
+
+    @ApiOperation("查看个人信息")
+    @RequestMapping(value = "/getVipInfo",method = RequestMethod.GET)
+    public ResponseEntity<VipInfo> getVipInfo() {
+        return ResponseEntity.ok(vipService.getVipInfo());
     }
 
 }

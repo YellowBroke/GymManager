@@ -25,5 +25,5 @@ public class VipInfo {
 
     private String vipPhoneNumber;
 
-    private Date vipBirthday;
+    private String vipBirthday;
 }

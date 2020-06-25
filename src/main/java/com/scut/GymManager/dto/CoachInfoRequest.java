@@ -28,7 +28,7 @@ public class CoachInfoRequest {
     private String phoneNumber;
 
     @ApiModelProperty(value = "出生日期", name = "birthday", example = "2020-06-18")
-    private Date birthday;
+    private String birthday;
 
     @ApiModelProperty(value = "性别", name = "sex", example = "男")
     private String sex;

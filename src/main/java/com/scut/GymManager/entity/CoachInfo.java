@@ -33,7 +33,7 @@ public class CoachInfo {
 
     private String coachPhoneNumber;
 
-    private Date coachBirth;
+    private String coachBirth;
 
     private String coachSex;
 

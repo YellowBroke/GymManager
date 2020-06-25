@@ -2,6 +2,7 @@ package com.scut.GymManager.service;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.scut.GymManager.dto.CourseRequest;
 import com.scut.GymManager.entity.CourseInfo;
 import com.scut.GymManager.exception.CrudException;
@@ -46,4 +47,19 @@ public interface CourseInfoService {
 	 * @return
 	 */
 	List<CourseInfo> viewVIPCourseTable(String VIPId);
+
+	/**
+	 * 分页查询课程信息
+	 * @param pageNO
+	 * @param pageSize
+	 * @return
+	 */
+	IPage<CourseInfo> getCourseInfoByPage(Long pageNO, Long pageSize);
+
+	/**
+	 * 通过课程名称查看课程信息
+	 * @param courseName
+	 * @return
+	 */
+	List<CourseInfo> getCourseInfoByName(String courseName);
 }

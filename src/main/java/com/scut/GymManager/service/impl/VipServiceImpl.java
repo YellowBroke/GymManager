@@ -3,6 +3,7 @@ package com.scut.GymManager.service.impl;
 import com.scut.GymManager.dto.AttendClassRequest;
 import com.scut.GymManager.dto.JoinRequest;
 import com.scut.GymManager.dto.JwtResponse;
+import com.scut.GymManager.dto.TakesRequest;
 import com.scut.GymManager.entity.*;
 import com.scut.GymManager.exception.*;
 import com.scut.GymManager.mapper.*;
@@ -142,7 +143,7 @@ public class VipServiceImpl implements VipService {
                 .vipId(uid)
                 .vipIdCard(vipInfo.getVipIdCard() == null ? newVipInfo.getVipIdCard() : vipInfo.getVipIdCard())
                 .vipName(vipInfo.getVipName() == null ? newVipInfo.getVipName() : vipInfo.getVipName())
-                .vipPhoneNumber(vipInfo.getVipPhoneNumber() == null ? newVipInfo.getVipPhoneNumber() : vipInfo.getVipPhoneNumber())
+                .vipPhoneNumber(newVipInfo.getVipPhoneNumber())//不允许修改手机号码
                 .vipBirthday(vipInfo.getVipBirthday() == null ? newVipInfo.getVipBirthday() : vipInfo.getVipBirthday())
                 .build();
 
@@ -249,16 +250,23 @@ public class VipServiceImpl implements VipService {
 
     @Override
     @Transactional(rollbackFor = {CourseChosenException.class})
-    public void courseChosen(Takes takes) throws CourseChosenException {
+    public void courseChosen(TakesRequest takesRequest) throws CourseChosenException {
 
         String uid = jwtUtil.extractUidSubject(this.httpServletRequest);
 
-        if (!uid.equals(takes.getVipId()))
+        if (!uid.equals(takesRequest.getVipId()))
             throw new CourseChosenException("您不能为别人选课");
 
-        if (takesMapper.insert(takes) != 1)
-            throw new CourseChosenException("选课失败");
+        for (String courseId : takesRequest.getCourseId()) {
 
+            Takes takes = Takes.builder()
+                    .courseId(courseId)
+                    .vipId(takesRequest.getVipId())
+                    .build();
+
+            if (takesMapper.insert(takes) != 1)
+                throw new CourseChosenException("选课失败");
+        }
     }
 
     @Override
@@ -270,5 +278,10 @@ public class VipServiceImpl implements VipService {
             throw new QueryException("你没有该权限");
 
         return vipInfoMapper.selectById(userBasicMapper.getUserIdByName(phoneNumber));
+    }
+
+    @Override
+    public VipInfo getVipInfo() {
+        return vipInfoMapper.selectById(jwtUtil.extractUidSubject(this.httpServletRequest));
     }
 }

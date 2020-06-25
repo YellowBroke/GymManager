@@ -7,16 +7,16 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.scut.GymManager.dto.CourseTimeRequest;
-import com.scut.GymManager.entity.CoachInfo;
 import com.scut.GymManager.entity.CourseTime;
 import com.scut.GymManager.mapper.CourseTimeMapper;
 import com.scut.GymManager.utility.JwtUtil;
 import com.scut.GymManager.utility.UUIDUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scut.GymManager.mapper.CourseInfoMapper;
@@ -126,6 +126,22 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 	@Override
 	public List<CourseInfo> viewVIPCourseTable(String vipId) {
 		return courseInfoMapper.searchVIPList(vipId);
+	}
+
+	@Override
+	public IPage<CourseInfo> getCourseInfoByPage(Long pageNO, Long pageSize) {
+		Page<CourseInfo> page = new Page<>(pageNO,pageSize);
+		return courseInfoMapper.selectPage(page, null);
+	}
+
+	@Override
+	public List<CourseInfo> getCourseInfoByName(String courseName) {
+
+		QueryWrapper<CourseInfo> wrapper = new QueryWrapper<CourseInfo>().eq("course_name", courseName);
+
+		List<CourseInfo> list = courseInfoMapper.selectList(wrapper);
+
+		return list;
 	}
 
 

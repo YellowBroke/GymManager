@@ -4,16 +4,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.scut.GymManager.dto.CourseNameRequest;
 import com.scut.GymManager.utility.SuccessResponse;
+import org.apache.commons.collections4.Get;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.scut.GymManager.dto.CourseRequest;
 import com.scut.GymManager.entity.CourseInfo;
@@ -25,6 +23,8 @@ import com.scut.GymManager.utility.ResponseGenerator;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
+import java.util.List;
 
 @RequestMapping("/Course")
 @Api(tags="课程接口")
@@ -84,6 +84,22 @@ public class CourseController {
 	{
 		String VIPId=jwtUtil.extractUidSubject(request);
 		return ResponseGenerator.getSuccessResponse(courseInfoService.viewVIPCourseTable(VIPId));
+	}
+
+	@ApiOperation("分页查询课程信息")
+	@RequestMapping(value = "/query/{pageNo}/{pageSize}",method = RequestMethod.GET)
+	public ResponseEntity<IPage<CourseInfo>> getCourseInfoByPage(@PathVariable Long pageNo,
+																 @PathVariable Long pageSize) {
+
+		return ResponseEntity.ok(courseInfoService.getCourseInfoByPage(pageNo,pageSize));
+	}
+
+	@ApiOperation("通过课程名称查看课程信息")
+	@RequestMapping(value = "/queryByName",method = RequestMethod.GET)
+	public ResponseEntity<List<CourseInfo>> getCourseInfoByName(@RequestBody CourseNameRequest courseNameRequest) {
+
+		return ResponseEntity.ok(courseInfoService.getCourseInfoByName(courseNameRequest.getCourseName()));
+
 	}
 }
 

@@ -74,7 +74,7 @@ public class CoachServiceImpl implements CoachService{
                 .coachId(uid)
                 .coachIdCard(coachInfo.getCoachIdCard() == null ? newCoachInfo.getCoachIdCard() : coachInfo.getCoachIdCard())
                 .coachName(coachInfo.getCoachName() == null ? newCoachInfo.getCoachName() : coachInfo.getCoachName())
-                .coachPhoneNumber(coachInfo.getCoachPhoneNumber() == null ? newCoachInfo.getCoachPhoneNumber() :coachInfo.getCoachPhoneNumber())
+                .coachPhoneNumber(newCoachInfo.getCoachPhoneNumber())//不允许修改手机号码
                 .coachBirth(coachInfo.getCoachBirth() == null ? newCoachInfo.getCoachBirth() : coachInfo.getCoachBirth())
                 .coachSex(coachInfo.getCoachSex() == null ? newCoachInfo.getCoachSex() : coachInfo.getCoachSex())
                 .coachSportEvent(coachInfo.getCoachSportEvent() == null ? newCoachInfo.getCoachSportEvent() : coachInfo.getCoachSportEvent())
@@ -93,7 +93,7 @@ public class CoachServiceImpl implements CoachService{
         //提取uid
         String uid = jwtUtil.extractUidSubject(this.httpServletRequest);
 
-        if (!coachId.equals(uid)) {
+        if (!uid.equals("1")) {
             throw new DeleteException("你没有操作权限");
         }
 
