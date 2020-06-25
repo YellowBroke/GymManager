@@ -40,4 +40,6 @@ public interface CoachService {
      * @return
      */
     public CoachInfo queryCoachInfoByPhone(String phoneNumber);
+
+    CoachInfo getCoachInfo();
 }

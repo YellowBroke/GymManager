@@ -72,9 +72,16 @@ public class CoachController {
     }
 
     @ApiOperation("管理员通过电话号码查看教练信息")
-    @RequestMapping(value = "/queryByPhone/{phoneNumber}",method = RequestMethod.GET)
+    @RequestMapping(value = "/queryByPhone/{phoneNumber}",method = RequestMethod.POST)
     public ResponseEntity<CoachInfo> queryByPhone(@PathVariable String phoneNumber) {
 
         return ResponseEntity.ok(coachService.queryCoachInfoByPhone(phoneNumber));
+    }
+
+    @ApiOperation("教练查看个人信息")
+    @RequestMapping(value = "/getCoachInfo" ,method = RequestMethod.GET)
+    public ResponseEntity<CoachInfo> getCoachInfo() {
+
+        return ResponseEntity.ok(coachService.getCoachInfo());
     }
 }
