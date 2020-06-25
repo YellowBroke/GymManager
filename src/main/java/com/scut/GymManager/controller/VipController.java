@@ -1,9 +1,6 @@
 package com.scut.GymManager.controller;
 
-import com.scut.GymManager.dto.AttendClassRequest;
-import com.scut.GymManager.dto.JoinRequest;
-import com.scut.GymManager.dto.SuccessResponse;
-import com.scut.GymManager.dto.TakesRequest;
+import com.scut.GymManager.dto.*;
 import com.scut.GymManager.entity.Takes;
 import com.scut.GymManager.entity.VipInfo;
 import com.scut.GymManager.exception.*;
@@ -103,10 +100,10 @@ public class VipController {
 
     @ApiOperation("转卡")
     @RequestMapping(value = "/vipTransfer", method = RequestMethod.POST)
-    public ResponseEntity<SuccessResponse> transferCard(@RequestBody String oldPhone,String newPhone) {
+    public ResponseEntity<SuccessResponse> transferCard(@RequestBody TransferCardRequest request) {
 
         try {
-            vipService.transferCard(oldPhone,newPhone);
+            vipService.transferCard(request.getOldPhone(),request.getNewPhone());
             log.info("用户转卡成功");
             return ResponseEntity.ok(new SuccessResponse(true, "转卡成功"));
         } catch (VipTransferCardException e) {

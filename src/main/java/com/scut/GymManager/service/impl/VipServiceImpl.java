@@ -2,7 +2,6 @@ package com.scut.GymManager.service.impl;
 
 import com.scut.GymManager.dto.AttendClassRequest;
 import com.scut.GymManager.dto.JoinRequest;
-import com.scut.GymManager.dto.JwtResponse;
 import com.scut.GymManager.dto.TakesRequest;
 import com.scut.GymManager.entity.*;
 import com.scut.GymManager.exception.*;
@@ -10,7 +9,6 @@ import com.scut.GymManager.mapper.*;
 import com.scut.GymManager.service.VipService;
 import com.scut.GymManager.utility.JwtUtil;
 import com.scut.GymManager.utility.UUIDUtil;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,7 +70,7 @@ public class VipServiceImpl implements VipService {
         VipCard vipCard = VipCard.builder()
                 .vipId(joinRequest.getVipId())
                 .validTime(0)
-                .cardStatus(false)
+                .cardStatus(true)
                 .classStatus(false)
                 .build();
 
