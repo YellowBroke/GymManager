@@ -44,7 +44,8 @@ CREATE TABLE gymmanager.coach_info(
     coach_birth VARCHAR(50) NOT NULL COMMENT '教练生日',
     coach_sex VARCHAR(10) NOT NULL COMMENT '教练性别',
     coach_sport_event VARCHAR(100) COMMENT '教练擅长项目',
-    PRIMARY KEY(coach_id)
+    PRIMARY KEY(coach_id),
+    INDEX (coach_name)
 ) ENGINE = InnoDB;
 
 CREATE TABLE gymmanager.course_info(
@@ -56,7 +57,8 @@ CREATE TABLE gymmanager.course_info(
     max_number INT NOT NULL COMMENT '最大选课人数',
     student_num INT NOT NULL DEFAULT(0) COMMENT '当前选课人数',
     classroom VARCHAR(20) NOT NULL COMMENT '教室',
-    PRIMARY KEY(course_id)
+    PRIMARY KEY(course_id),
+    FOREIGN KEY(coach_name) REFERENCES coach_info(coach_name)
 ) ENGINE = InnoDB;
 
 CREATE TABLE gymmanager.on_lesson(
