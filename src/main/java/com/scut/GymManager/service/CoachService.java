@@ -41,5 +41,9 @@ public interface CoachService {
      */
     public CoachInfo queryCoachInfoByPhone(String phoneNumber);
 
+    /**
+     * 教练查看个人信息
+     * @return
+     */
     CoachInfo getCoachInfo();
 }

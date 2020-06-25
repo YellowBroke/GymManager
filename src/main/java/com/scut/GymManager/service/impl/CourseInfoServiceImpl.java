@@ -2,6 +2,7 @@ package com.scut.GymManager.service.impl;
 
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.scut.GymManager.mapper.CourseInfoMapper;
+import com.scut.GymManager.dto.CourseInfoResponse;
 import com.scut.GymManager.dto.CourseRequest;
 import com.scut.GymManager.entity.CourseInfo;
 import com.scut.GymManager.exception.CrudException;
@@ -118,15 +120,74 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 	}
 
 	@Override
-	public List<CourseInfo> viewCoachCourseTable(String coachId) {
-
-		return courseInfoMapper.searchCoachList(coachId);
+	public List<CourseInfoResponse> viewCoachCourseTable(String coachId) {
+        
+		List<CourseInfoResponse> lct=new ArrayList<>(); 
+		List<CourseInfo> lc=courseInfoMapper.searchCoachList(coachId);
+		List<CourseTime> lt=courseInfoMapper.searchCoachTime(coachId);
+		for(CourseInfo x:lc)
+		{
+			CourseInfoResponse cir=new CourseInfoResponse();
+			cir.setCourseId(x.getCourseId());
+			cir.setCoachId(x.getCoachId());
+			cir.setCourseName(x.getCourseName());
+			cir.setCourseTime(x.getCourseTime());
+			cir.setMaxNumber(x.getMaxNumber());
+			cir.setStudentNum(x.getStudentNum());
+			cir.setClassroom(x.getClassroom());
+			List<CourseTimeRequest> l1=new ArrayList<>();
+			for(CourseTime y:lt)
+			{
+				if(x.getCourseId().equals(y.getCourseId()))
+				{
+					CourseTimeRequest z=new CourseTimeRequest();
+					z.setDay(y.getDay());
+					z.setHour(y.getTimeSlot().getHours());
+					z.setMinute(y.getTimeSlot().getMinutes());
+					z.setSecond(y.getTimeSlot().getSeconds());
+					l1.add(z);
+				}
+			}
+			cir.setTimeList(l1);
+			lct.add(cir);
+		}
+		return lct;
 	}
 
 	@Override
-	public List<CourseInfo> viewVIPCourseTable(String vipId) {
-		return courseInfoMapper.searchVIPList(vipId);
+	public List<CourseInfoResponse> viewVIPCourseTable(String vipId) {
+		List<CourseInfoResponse> lct=new ArrayList<>(); 
+		List<CourseInfo> lc=courseInfoMapper.searchVIPList(vipId);
+		List<CourseTime> lt=courseInfoMapper.searchVIPTime(vipId);
+		for(CourseInfo x:lc)
+		{
+			CourseInfoResponse cir=new CourseInfoResponse();
+			cir.setCourseId(x.getCourseId());
+			cir.setCoachId(x.getCoachId());
+			cir.setCourseName(x.getCourseName());
+			cir.setCourseTime(x.getCourseTime());
+			cir.setMaxNumber(x.getMaxNumber());
+			cir.setStudentNum(x.getStudentNum());
+			cir.setClassroom(x.getClassroom());
+			List<CourseTimeRequest> l1=new ArrayList<>();
+			for(CourseTime y:lt)
+			{
+				if(x.getCourseId().equals(y.getCourseId()))
+				{
+					CourseTimeRequest z=new CourseTimeRequest();
+					z.setDay(y.getDay());
+					z.setHour(y.getTimeSlot().getHours());
+					z.setMinute(y.getTimeSlot().getMinutes());
+					z.setSecond(y.getTimeSlot().getSeconds());
+					l1.add(z);
+				}
+			}
+			cir.setTimeList(l1);
+			lct.add(cir);
+		}
+		return lct;
 	}
+
 
 	@Override
 	public IPage<CourseInfo> getCourseInfoByPage(Long pageNO, Long pageSize) {
