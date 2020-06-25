@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 /**
- * create by YellowBroke on 2020年6月18日 收件
+ * create by YellowBroke on 2020年6月18日 10点52分
  */
 
 @Component
@@ -17,6 +17,5 @@ public class UUIDUtil {
         uuid = uuid.replace("-","");
         return uuid;
     }
-
 
 }

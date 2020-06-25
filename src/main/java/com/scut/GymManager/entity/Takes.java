@@ -7,23 +7,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+/**
+ * 选课信息
+ * create by YellowBroke on 2020年6月24日 09点17分
+ */
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@TableName("vip_info")
-public class VipInfo {
+@TableName("takes")
+public class Takes {
+
+    @TableId("course_id")
+    private String courseId;
 
     @TableId("vip_id")
     private String vipId;
-
-    private String vipIdCard;
-
-    private String vipName;
-
-    private String vipPhoneNumber;
-
-    private String vipBirthday;
 }

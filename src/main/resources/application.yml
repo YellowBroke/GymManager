@@ -19,8 +19,4 @@ server:
     max-http-form-post-size: 5MB
 
 
-logging:
-  level:
-    root: info
-    com.scut.indoorLocation.dao: trace
 

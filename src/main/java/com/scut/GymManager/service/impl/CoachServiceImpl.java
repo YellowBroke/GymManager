@@ -6,6 +6,7 @@ import com.scut.GymManager.exception.CoachModifyException;
 import com.scut.GymManager.exception.CreateException;
 import com.scut.GymManager.exception.DeleteException;
 import com.scut.GymManager.mapper.CoachMapper;
+import com.scut.GymManager.mapper.UserBasicMapper;
 import com.scut.GymManager.service.CoachService;
 import com.scut.GymManager.utility.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,6 +31,9 @@ public class CoachServiceImpl implements CoachService{
 
     @Resource
     private HttpServletRequest httpServletRequest;
+
+    @Resource
+    private UserBasicMapper userBasicMapper;
 
     @Override
     @Transactional(rollbackFor = {CreateException.class})
@@ -68,7 +72,7 @@ public class CoachServiceImpl implements CoachService{
                 .coachId(uid)
                 .coachIdCard(coachInfo.getCoachIdCard() == null ? newCoachInfo.getCoachIdCard() : coachInfo.getCoachIdCard())
                 .coachName(coachInfo.getCoachName() == null ? newCoachInfo.getCoachName() : coachInfo.getCoachName())
-                .coachPhoneNumber(coachInfo.getCoachPhoneNumber() == null ? newCoachInfo.getCoachPhoneNumber() :coachInfo.getCoachPhoneNumber())
+                .coachPhoneNumber(newCoachInfo.getCoachPhoneNumber())//不允许修改手机号码
                 .coachBirth(coachInfo.getCoachBirth() == null ? newCoachInfo.getCoachBirth() : coachInfo.getCoachBirth())
                 .coachSex(coachInfo.getCoachSex() == null ? newCoachInfo.getCoachSex() : coachInfo.getCoachSex())
                 .coachSportEvent(coachInfo.getCoachSportEvent() == null ? newCoachInfo.getCoachSportEvent() : coachInfo.getCoachSportEvent())
@@ -87,12 +91,24 @@ public class CoachServiceImpl implements CoachService{
         //提取uid
         String uid = jwtUtil.extractUidSubject(this.httpServletRequest);
 
-        if (!coachId.equals(uid)) {
+        if (!uid.equals("1")) {
             throw new DeleteException("你没有操作权限");
         }
 
         if(coachMapper.deleteById(coachId) != 1){
             throw new DeleteException("删除失败");
         }
+    }
+
+    @Override
+    public CoachInfo queryCoachInfoByPhone(String phoneNumber) {
+
+        String uid = jwtUtil.extractUidSubject(this.httpServletRequest);
+
+        if (!uid.equals("1")) {
+            return null;
+        }
+
+        return coachMapper.selectById(userBasicMapper.getUserIdByName(phoneNumber));
     }
 }
