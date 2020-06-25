@@ -1,9 +1,6 @@
 package com.scut.GymManager.dto;
 
-import com.sun.xml.internal.ws.resources.UtilMessages;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
-import javafx.scene.transform.Scale;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -21,6 +21,9 @@ public class CourseInfoResponse {
     @ApiModelProperty(value = "课程名称",name = "CourseName" , example = "健身操")
     private String CourseName;
 
+    @ApiModelProperty(value = "教练名称",name = "coachName",example = "张三")
+    private String coachName;
+
     @ApiModelProperty(value = "开课次数",name = "CourseTime" , example = "10")
     private int CourseTime;
 

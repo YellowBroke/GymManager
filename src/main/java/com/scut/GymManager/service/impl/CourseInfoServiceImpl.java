@@ -62,6 +62,7 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 		CourseInfo courseInfo=CourseInfo.builder()
 				.CourseId(courseId)
 				.CourseName(courseRequest.getCourseName())
+				.coachName(courseRequest.getCoachName())
 				.CourseTime(courseRequest.getCourseTime())
 				.MaxNumber(courseRequest.getMaxNumber())
 				.Classroom(courseRequest.getClassroom())
@@ -130,6 +131,7 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 			CourseInfoResponse cir=new CourseInfoResponse();
 			cir.setCourseId(x.getCourseId());
 			cir.setCoachId(x.getCoachId());
+			cir.setCoachName(x.getCoachName());
 			cir.setCourseName(x.getCourseName());
 			cir.setCourseTime(x.getCourseTime());
 			cir.setMaxNumber(x.getMaxNumber());
@@ -164,6 +166,7 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 			CourseInfoResponse cir=new CourseInfoResponse();
 			cir.setCourseId(x.getCourseId());
 			cir.setCoachId(x.getCoachId());
+			cir.setCoachName(x.getCoachName());
 			cir.setCourseName(x.getCourseName());
 			cir.setCourseTime(x.getCourseTime());
 			cir.setMaxNumber(x.getMaxNumber());
@@ -231,6 +234,7 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 			CourseInfoResponse courseInfoResponse = CourseInfoResponse.builder()
 					.coachId(courseInfo.getCoachId())
 					.courseId(courseInfo.getCourseId())
+					.coachName(courseInfo.getCoachName())
 					.Classroom(courseInfo.getClassroom())
 					.CourseName(courseInfo.getCourseName())
 					.CourseTime(courseInfo.getCourseTime())

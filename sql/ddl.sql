@@ -36,9 +36,21 @@ CREATE TABLE gymmanager.vip_card(
     PRIMARY KEY(vip_id)
 ) ENGINE = InnoDB;
 
+CREATE TABLE gymmanager.coach_info(
+    coach_id VARCHAR(32) NOT NULL COMMENT '教练id',
+    coach_id_card VARCHAR(32) NOT NULL COMMENT '身份证',
+    coach_name VARCHAR(50) NOT NULL COMMENT '教练名称',
+    coach_phone_number VARCHAR(32) NOT NULL COMMENT '电话号码',
+    coach_birth VARCHAR(50) NOT NULL COMMENT '教练生日',
+    coach_sex VARCHAR(10) NOT NULL COMMENT '教练性别',
+    coach_sport_event VARCHAR(100) COMMENT '教练擅长项目',
+    PRIMARY KEY(coach_id)
+) ENGINE = InnoDB;
+
 CREATE TABLE gymmanager.course_info(
     course_id VARCHAR(32) NOT NULL COMMENT '课程id',
     coach_id VARCHAR(32) NOT NULL COMMENT '教练id',
+    coach_name VARCHAR(50) NOT NULL COMMENT '教练名称',
     course_name VARCHAR(20) NOT NULL COMMENT '课程名称',
     course_time INT NOT NULL COMMENT '开课次数',
     max_number INT NOT NULL COMMENT '最大选课人数',
@@ -85,17 +97,6 @@ CREATE TABLE gymmanager.takes(
     PRIMARY KEY(course_id,vip_id),
     FOREIGN KEY(course_id) REFERENCES course_info(course_id),
     FOREIGN KEY(vip_id) REFERENCES vip_info(vip_id)
-) ENGINE = InnoDB;
-
-CREATE TABLE gymmanager.coach_info(
-    coach_id VARCHAR(32) NOT NULL COMMENT '教练id',
-    coach_id_card VARCHAR(32) NOT NULL COMMENT '身份证',
-    coach_name VARCHAR(50) NOT NULL COMMENT '教练名称',
-    coach_phone_number VARCHAR(32) NOT NULL COMMENT '电话号码',
-    coach_birth VARCHAR(50) NOT NULL COMMENT '教练生日',
-    coach_sex VARCHAR(10) NOT NULL COMMENT '教练性别',
-    coach_sport_event VARCHAR(100) COMMENT '教练擅长项目',
-    PRIMARY KEY(coach_id)
 ) ENGINE = InnoDB;
 
 CREATE TABLE gymmanager.coach_cancel(

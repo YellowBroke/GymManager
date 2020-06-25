@@ -16,6 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 public class CourseRequest {
 
+	@ApiModelProperty(value = "教练名称",name = "coachName",example = "张三")
+	private String coachName;
+
 	@ApiModelProperty(value = "课程名称",name = "CourseName" , example = "健身操")
 	private String CourseName;
 

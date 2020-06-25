@@ -21,6 +21,8 @@ public class CourseInfo {
 	private String CourseId;
 	
 	private String coachId;
+
+	private String coachName;
 	
 	private String CourseName;
 	
