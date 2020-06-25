@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import com.scut.GymManager.dto.CourseInfoResponse;
 import com.scut.GymManager.dto.CourseRequest;
-import com.scut.GymManager.dto.CourseTimeRequest;
 import com.scut.GymManager.entity.CourseInfo;
 import com.scut.GymManager.exception.CrudException;
 
@@ -35,7 +34,7 @@ public interface CourseInfoService {
 	void deleteCourse(String CourseId) throws CrudException;
 
 
-	List<CourseInfo> viewTable() throws CrudException;
+	List<CourseInfoResponse> viewTable() throws CrudException;
 
 	/**
 	 * 查看课程表（教练）

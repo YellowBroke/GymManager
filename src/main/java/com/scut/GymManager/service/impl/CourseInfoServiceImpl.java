@@ -115,18 +115,59 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 	}
 
 	@Override
-	public List<CourseInfo> viewTable()  {
+	public List<CourseInfoResponse> viewTable()  {
 		
-		return courseInfoMapper.selectList(null);
+		List<CourseInfo> courseInfoList = courseInfoMapper.selectList(null);
+
+		List<CourseInfoResponse> courseInfoResponseList = new ArrayList<>();
+
+		for (CourseInfo courseInfo : courseInfoList) {
+			QueryWrapper<CourseTime> courseTimeQueryWrapper = new QueryWrapper<CourseTime>().eq("course_id", courseInfo.getCourseId());
+
+			//从数据库中拿到该课程的时间列表
+			List<CourseTime> courseTimeList = courseTimeMapper.selectList(courseTimeQueryWrapper);
+
+			List<CourseTimeRequest> courseTimeRequestList = new ArrayList<>();
+
+			//构造返回时间列表
+			for (CourseTime courseTime : courseTimeList) {
+
+				CourseTimeRequest courseTimeRequest = CourseTimeRequest.builder()
+						.day(courseTime.getDay())
+						.hour(courseTime.getTimeSlot().getHours())
+						.minute(courseTime.getTimeSlot().getMinutes())
+						.second(courseTime.getTimeSlot().getSeconds())
+						.build();
+
+				courseTimeRequestList.add(courseTimeRequest);
+			}
+
+
+			CourseInfoResponse courseInfoResponse = CourseInfoResponse.builder()
+					.coachId(courseInfo.getCoachId())
+					.courseId(courseInfo.getCourseId())
+					.coachName(courseInfo.getCoachName())
+					.Classroom(courseInfo.getClassroom())
+					.CourseName(courseInfo.getCourseName())
+					.CourseTime(courseInfo.getCourseTime())
+					.MaxNumber(courseInfo.getMaxNumber())
+					.studentNum(courseInfo.getStudentNum())
+					.timeList(courseTimeRequestList)
+					.build();
+
+			courseInfoResponseList.add(courseInfoResponse);
+		}
+
+		return courseInfoResponseList;
 	}
 
 	@Override
 	public List<CourseInfoResponse> viewCoachCourseTable(String coachId) {
         
-		List<CourseInfoResponse> lct=new ArrayList<>(); 
+		List<CourseInfoResponse> lct = new ArrayList<>();
 		List<CourseInfo> lc=courseInfoMapper.searchCoachList(coachId);
 		List<CourseTime> lt=courseInfoMapper.searchCoachTime(coachId);
-		for(CourseInfo x:lc)
+		for (CourseInfo x:lc)
 		{
 			CourseInfoResponse cir=new CourseInfoResponse();
 			cir.setCourseId(x.getCourseId());
@@ -158,38 +199,37 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 
 	@Override
 	public List<CourseInfoResponse> viewVIPCourseTable(String vipId) {
-		List<CourseInfoResponse> lct=new ArrayList<>(); 
-		List<CourseInfo> lc=courseInfoMapper.searchVIPList(vipId);
-		List<CourseTime> lt=courseInfoMapper.searchVIPTime(vipId);
-		for(CourseInfo x:lc)
+		List<CourseInfoResponse> lct=new ArrayList<>();
+	List<CourseInfo> lc=courseInfoMapper.searchVIPList(vipId);
+	List<CourseTime> lt=courseInfoMapper.searchVIPTime(vipId);
+		for(CourseInfo x:lc) {
+		CourseInfoResponse cir=new CourseInfoResponse();
+		cir.setCourseId(x.getCourseId());
+		cir.setCoachId(x.getCoachId());
+		cir.setCoachName(x.getCoachName());
+		cir.setCourseName(x.getCourseName());
+		cir.setCourseTime(x.getCourseTime());
+		cir.setMaxNumber(x.getMaxNumber());
+		cir.setStudentNum(x.getStudentNum());
+		cir.setClassroom(x.getClassroom());
+		List<CourseTimeRequest> l1=new ArrayList<>();
+		for(CourseTime y:lt)
 		{
-			CourseInfoResponse cir=new CourseInfoResponse();
-			cir.setCourseId(x.getCourseId());
-			cir.setCoachId(x.getCoachId());
-			cir.setCoachName(x.getCoachName());
-			cir.setCourseName(x.getCourseName());
-			cir.setCourseTime(x.getCourseTime());
-			cir.setMaxNumber(x.getMaxNumber());
-			cir.setStudentNum(x.getStudentNum());
-			cir.setClassroom(x.getClassroom());
-			List<CourseTimeRequest> l1=new ArrayList<>();
-			for(CourseTime y:lt)
+			if(x.getCourseId().equals(y.getCourseId()))
 			{
-				if(x.getCourseId().equals(y.getCourseId()))
-				{
-					CourseTimeRequest z=new CourseTimeRequest();
-					z.setDay(y.getDay());
-					z.setHour(y.getTimeSlot().getHours());
-					z.setMinute(y.getTimeSlot().getMinutes());
-					z.setSecond(y.getTimeSlot().getSeconds());
-					l1.add(z);
-				}
+				CourseTimeRequest z=new CourseTimeRequest();
+				z.setDay(y.getDay());
+				z.setHour(y.getTimeSlot().getHours());
+				z.setMinute(y.getTimeSlot().getMinutes());
+				z.setSecond(y.getTimeSlot().getSeconds());
+				l1.add(z);
 			}
-			cir.setTimeList(l1);
-			lct.add(cir);
 		}
-		return lct;
+		cir.setTimeList(l1);
+		lct.add(cir);
 	}
+		return lct;
+}
 
 
 	@Override
@@ -248,6 +288,4 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 
 		return courseInfoResponseList;
 	}
-
-
 }

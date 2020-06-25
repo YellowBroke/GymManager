@@ -25,7 +25,7 @@ import java.util.Date;
 public class CoachInfo {
 
     @TableId(value = "coach_id", type = IdType.ASSIGN_UUID)
-    private  String coachId;
+    private String coachId;
 
     private String coachIdCard;
 
