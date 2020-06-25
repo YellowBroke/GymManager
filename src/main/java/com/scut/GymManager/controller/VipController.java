@@ -114,11 +114,11 @@ public class VipController {
     }
 
     @ApiOperation("会员卡充值")
-    @RequestMapping(value = "/vipRenewal", method = RequestMethod.POST)
-    public ResponseEntity<SuccessResponse> renewal(@RequestBody String vipID,int time) {
+    @RequestMapping(value = "/vipRenewal/{vipId}/{time}", method = RequestMethod.POST)
+    public ResponseEntity<SuccessResponse> renewal(@PathVariable String vipId,@PathVariable int time) {
 
         try {
-            vipService.renewal(vipID,time);
+            vipService.renewal(vipId,time);
             log.info("用户续费成功");
             return ResponseEntity.ok(new SuccessResponse(true, "续费成功"));
         } catch (VipRenewalException e) {

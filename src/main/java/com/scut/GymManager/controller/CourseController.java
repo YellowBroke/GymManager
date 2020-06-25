@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.scut.GymManager.dto.CourseInfoResponse;
 import com.scut.GymManager.dto.CourseNameRequest;
 import com.scut.GymManager.utility.SuccessResponse;
 import org.apache.commons.collections4.Get;
@@ -96,7 +97,7 @@ public class CourseController {
 
 	@ApiOperation("通过课程名称查看课程信息")
 	@RequestMapping(value = "/queryByName",method = RequestMethod.GET)
-	public ResponseEntity<List<CourseInfo>> getCourseInfoByName(@RequestBody CourseNameRequest courseNameRequest) {
+	public ResponseEntity<List<CourseInfoResponse>> getCourseInfoByName(@RequestBody CourseNameRequest courseNameRequest) {
 
 		return ResponseEntity.ok(courseInfoService.getCourseInfoByName(courseNameRequest.getCourseName()));
 

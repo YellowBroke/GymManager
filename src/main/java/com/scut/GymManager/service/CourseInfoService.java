@@ -65,5 +65,5 @@ public interface CourseInfoService {
 	 * @param courseName
 	 * @return
 	 */
-	List<CourseInfo> getCourseInfoByName(String courseName);
+	List<CourseInfoResponse> getCourseInfoByName(String courseName);
 }

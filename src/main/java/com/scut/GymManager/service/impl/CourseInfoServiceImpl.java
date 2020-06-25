@@ -196,13 +196,53 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 	}
 
 	@Override
-	public List<CourseInfo> getCourseInfoByName(String courseName) {
+	public List<CourseInfoResponse> getCourseInfoByName(String courseName) {
 
 		QueryWrapper<CourseInfo> wrapper = new QueryWrapper<CourseInfo>().eq("course_name", courseName);
 
 		List<CourseInfo> list = courseInfoMapper.selectList(wrapper);
 
-		return list;
+		List<CourseInfoResponse> courseInfoResponseList = new ArrayList<>();
+
+
+		for (CourseInfo courseInfo : list) {
+
+			QueryWrapper<CourseTime> courseTimeQueryWrapper = new QueryWrapper<CourseTime>().eq("course_id", courseInfo.getCourseId());
+
+			//从数据库中拿到该课程的时间列表
+			List<CourseTime> courseTimeList = courseTimeMapper.selectList(courseTimeQueryWrapper);
+
+			List<CourseTimeRequest> courseTimeRequestList = new ArrayList<>();
+
+			//构造返回时间列表
+			for (CourseTime courseTime : courseTimeList) {
+
+				CourseTimeRequest courseTimeRequest = CourseTimeRequest.builder()
+						.day(courseTime.getDay())
+						.hour(courseTime.getTimeSlot().getHours())
+						.minute(courseTime.getTimeSlot().getMinutes())
+						.second(courseTime.getTimeSlot().getSeconds())
+						.build();
+
+				courseTimeRequestList.add(courseTimeRequest);
+			}
+
+
+			CourseInfoResponse courseInfoResponse = CourseInfoResponse.builder()
+					.coachId(courseInfo.getCoachId())
+					.courseId(courseInfo.getCourseId())
+					.Classroom(courseInfo.getClassroom())
+					.CourseName(courseInfo.getCourseName())
+					.CourseTime(courseInfo.getCourseTime())
+					.MaxNumber(courseInfo.getMaxNumber())
+					.studentNum(courseInfo.getStudentNum())
+					.timeList(courseTimeRequestList)
+					.build();
+
+			courseInfoResponseList.add(courseInfoResponse);
+		}
+
+		return courseInfoResponseList;
 	}
 
 
