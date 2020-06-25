@@ -1,17 +1,27 @@
 package com.scut.GymManager.service.impl;
 
+
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.scut.GymManager.dto.CourseTimeRequest;
+import com.scut.GymManager.entity.CourseTime;
+import com.scut.GymManager.mapper.CourseTimeMapper;
 import com.scut.GymManager.utility.JwtUtil;
+import com.scut.GymManager.utility.UUIDUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scut.GymManager.mapper.CourseInfoMapper;
+import com.scut.GymManager.dto.CourseInfoResponse;
 import com.scut.GymManager.dto.CourseRequest;
 import com.scut.GymManager.entity.CourseInfo;
 import com.scut.GymManager.exception.CrudException;
@@ -28,7 +38,13 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 	private CourseInfoMapper courseInfoMapper;
 
 	@Resource
+	private CourseTimeMapper courseTimeMapper;
+
+	@Resource
 	private JwtUtil jwtUtil;
+
+	@Resource
+	private UUIDUtil uuidUtil;
 
 	@Resource
 	private HttpServletRequest httpServletRequest;
@@ -41,7 +57,10 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 		if (!identity.equals("Coach"))
 			throw new CrudException("非教练不能创建课程");
 
+		String courseId = uuidUtil.get32UUIDString();
+
 		CourseInfo courseInfo=CourseInfo.builder()
+				.CourseId(courseId)
 				.CourseName(courseRequest.getCourseName())
 				.CourseTime(courseRequest.getCourseTime())
 				.MaxNumber(courseRequest.getMaxNumber())
@@ -50,7 +69,24 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 				.studentNum(courseRequest.getStudentNum())
 				.build();
 		int x=courseInfoMapper.insert(courseInfo);
-		if(x==0) throw new CrudException("insert 出错");
+		if(x == 0) throw new CrudException("insert 出错");
+
+		//获取课程时间列表
+		List<CourseTimeRequest> timeList = courseRequest.getTimeList();
+
+		//插入课程时间
+		for (CourseTimeRequest courseTimeRequest : timeList) {
+            Time time = new Time(courseTimeRequest.getHour(), courseTimeRequest.getMinute(), courseTimeRequest.getSecond());
+
+            CourseTime courseTime = CourseTime.builder()
+                    .courseId(courseId)
+                    .day(courseTimeRequest.getDay())
+                    .timeSlot(time)
+                    .build();
+
+            if (courseTimeMapper.insert(courseTime) != 1)
+                throw new CrudException("课程时间插入异常");
+        }
 	}
 
 	@Override
@@ -84,14 +120,89 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 	}
 
 	@Override
-	public List<CourseInfo> viewCoachCourseTable(String coachId) {
-
-		return courseInfoMapper.searchCoachList(coachId);
+	public List<CourseInfoResponse> viewCoachCourseTable(String coachId) {
+        
+		List<CourseInfoResponse> lct=new ArrayList<>(); 
+		List<CourseInfo> lc=courseInfoMapper.searchCoachList(coachId);
+		List<CourseTime> lt=courseInfoMapper.searchCoachTime(coachId);
+		for(CourseInfo x:lc)
+		{
+			CourseInfoResponse cir=new CourseInfoResponse();
+			cir.setCourseId(x.getCourseId());
+			cir.setCoachId(x.getCoachId());
+			cir.setCourseName(x.getCourseName());
+			cir.setCourseTime(x.getCourseTime());
+			cir.setMaxNumber(x.getMaxNumber());
+			cir.setStudentNum(x.getStudentNum());
+			cir.setClassroom(x.getClassroom());
+			List<CourseTimeRequest> l1=new ArrayList<>();
+			for(CourseTime y:lt)
+			{
+				if(x.getCourseId().equals(y.getCourseId()))
+				{
+					CourseTimeRequest z=new CourseTimeRequest();
+					z.setDay(y.getDay());
+					z.setHour(y.getTimeSlot().getHours());
+					z.setMinute(y.getTimeSlot().getMinutes());
+					z.setSecond(y.getTimeSlot().getSeconds());
+					l1.add(z);
+				}
+			}
+			cir.setTimeList(l1);
+			lct.add(cir);
+		}
+		return lct;
 	}
 
 	@Override
-	public List<CourseInfo> viewVIPCourseTable(String vipId) {
-		return courseInfoMapper.searchVIPList(vipId);
+	public List<CourseInfoResponse> viewVIPCourseTable(String vipId) {
+		List<CourseInfoResponse> lct=new ArrayList<>(); 
+		List<CourseInfo> lc=courseInfoMapper.searchVIPList(vipId);
+		List<CourseTime> lt=courseInfoMapper.searchVIPTime(vipId);
+		for(CourseInfo x:lc)
+		{
+			CourseInfoResponse cir=new CourseInfoResponse();
+			cir.setCourseId(x.getCourseId());
+			cir.setCoachId(x.getCoachId());
+			cir.setCourseName(x.getCourseName());
+			cir.setCourseTime(x.getCourseTime());
+			cir.setMaxNumber(x.getMaxNumber());
+			cir.setStudentNum(x.getStudentNum());
+			cir.setClassroom(x.getClassroom());
+			List<CourseTimeRequest> l1=new ArrayList<>();
+			for(CourseTime y:lt)
+			{
+				if(x.getCourseId().equals(y.getCourseId()))
+				{
+					CourseTimeRequest z=new CourseTimeRequest();
+					z.setDay(y.getDay());
+					z.setHour(y.getTimeSlot().getHours());
+					z.setMinute(y.getTimeSlot().getMinutes());
+					z.setSecond(y.getTimeSlot().getSeconds());
+					l1.add(z);
+				}
+			}
+			cir.setTimeList(l1);
+			lct.add(cir);
+		}
+		return lct;
 	}
+
+	@Override
+	public IPage<CourseInfo> getCourseInfoByPage(Long pageNO, Long pageSize) {
+		Page<CourseInfo> page = new Page<>(pageNO,pageSize);
+		return courseInfoMapper.selectPage(page, null);
+	}
+
+	@Override
+	public List<CourseInfo> getCourseInfoByName(String courseName) {
+
+		QueryWrapper<CourseInfo> wrapper = new QueryWrapper<CourseInfo>().eq("course_name", courseName);
+
+		List<CourseInfo> list = courseInfoMapper.selectList(wrapper);
+
+		return list;
+	}
+
 
 }

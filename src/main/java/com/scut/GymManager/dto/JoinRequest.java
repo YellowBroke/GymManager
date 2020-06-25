@@ -31,5 +31,5 @@ public class JoinRequest {
     private String phoneNumber;
 
     @ApiModelProperty(value = "生日",name = "birthday", example = "2020-01-01")
-    private Date birthday;
+    private String birthday;
 }

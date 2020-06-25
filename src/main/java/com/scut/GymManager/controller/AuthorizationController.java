@@ -1,7 +1,9 @@
 package com.scut.GymManager.controller;
 
 import com.scut.GymManager.dto.JwtResponse;
+import com.scut.GymManager.entity.CoachInfo;
 import com.scut.GymManager.entity.VipInfo;
+import com.scut.GymManager.mapper.CoachMapper;
 import com.scut.GymManager.mapper.UserBasicMapper;
 import com.scut.GymManager.mapper.VipInfoMapper;
 import com.scut.GymManager.utility.JwtUtil;
@@ -37,6 +39,9 @@ public class AuthorizationController {
     private VipInfoMapper vipInfoMapper;
 
     @Resource
+    private CoachMapper coachMapper;
+
+    @Resource
     private JwtUtil jwtUtil;
 
     @ApiOperation("登录认证")
@@ -51,10 +56,11 @@ public class AuthorizationController {
         String uid = userBasicMapper.getUserIdByName(username);
 
         VipInfo vip = vipInfoMapper.selectById(uid);
+        CoachInfo coach = coachMapper.selectById(uid);
         //判断身份
         if (vip != null)
             claims.put("identity","Vip");
-        else
+        if (coach != null)
             claims.put("identity", "Coach");
 
         claims.put("uid", userBasicMapper.getUserIdByName(username));

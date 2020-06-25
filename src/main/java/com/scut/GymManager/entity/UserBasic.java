@@ -28,6 +28,4 @@ public class UserBasic {
 
     @JsonIgnore
     private String password;
-
-
 }

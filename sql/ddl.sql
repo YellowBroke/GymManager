@@ -14,14 +14,16 @@ CREATE TABLE gymmanager.user_basic
 ) ENGINE = InnoDB;
 
 #管理员账号
-INSERT INTO user_basic VALUES("1","admin","admin");
+#username: admin
+#password: admin
+INSERT INTO user_basic VALUES("1","admin","$2a$10$kd9hAAZavkJ9Lj0X5sb9C.mN7zmopjODKtt1q1ngiWBiQba4BVPmq");
 
 CREATE TABLE gymmanager.vip_info(
     vip_id VARCHAR(32) NOT NULL COMMENT '会员id',
     vip_id_card VARCHAR(32) NOT NULL COMMENT '身份证号',
     vip_name VARCHAR(50) NOT NULL COMMENT '名字',
     vip_phone_number VARCHAR(32) NOT NULL COMMENT '手机号码',
-    vip_birthday DATE NOT NULL COMMENT '生日',
+    vip_birthday VARCHAR(50) NOT NULL COMMENT '生日',
     PRIMARY KEY(vip_id)
 ) ENGINE = InnoDB;
 
@@ -90,7 +92,7 @@ CREATE TABLE gymmanager.coach_info(
     coach_id_card VARCHAR(32) NOT NULL COMMENT '身份证',
     coach_name VARCHAR(50) NOT NULL COMMENT '教练名称',
     coach_phone_number VARCHAR(32) NOT NULL COMMENT '电话号码',
-    coach_birth DATE NOT NULL COMMENT '教练生日',
+    coach_birth VARCHAR(50) NOT NULL COMMENT '教练生日',
     coach_sex VARCHAR(10) NOT NULL COMMENT '教练性别',
     coach_sport_event VARCHAR(100) COMMENT '教练擅长项目',
     PRIMARY KEY(coach_id)
@@ -101,7 +103,7 @@ CREATE TABLE gymmanager.coach_cancel(
     coach_id_card VARCHAR(32) NOT NULL COMMENT '身份证',
     coach_name VARCHAR(50) NOT NULL COMMENT '教练名称',
     coach_phone_number VARCHAR(32) NOT NULL COMMENT '电话号码',
-    coach_birth DATE NOT NULL COMMENT '教练生日',
+    coach_birth VARCHAR(50) NOT NULL COMMENT '教练生日',
     coach_sex VARCHAR(10) NOT NULL COMMENT '教练性别',
     coach_sport_event VARCHAR(100) COMMENT '教练擅长项目',
     PRIMARY KEY(coach_id)
