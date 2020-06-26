@@ -38,6 +38,9 @@ public class VipServiceImpl implements VipService {
     private UserBasicMapper userBasicMapper;
 
     @Resource
+    private CourseInfoMapper courseInfoMapper;
+
+    @Resource
     private JwtUtil jwtUtil;
 
     @Resource
@@ -257,12 +260,20 @@ public class VipServiceImpl implements VipService {
 
         for (String courseId : takesRequest.getCourseId()) {
 
+            CourseInfo courseInfo = courseInfoMapper.selectById(courseId);
+
+            //获取当前课程余量
+            if (courseInfo.getMaxNumber() - courseInfo.getStudentNum() <= 0)
+                throw new CourseChosenException("课程余量不足，选课失败");
+
+            courseInfo.setStudentNum(courseInfo.getStudentNum() + 1);
+
             Takes takes = Takes.builder()
                     .courseId(courseId)
                     .vipId(takesRequest.getVipId())
                     .build();
 
-            if (takesMapper.insert(takes) != 1)
+            if (takesMapper.insert(takes) != 1 || courseInfoMapper.updateById(courseInfo) != 1)
                 throw new CourseChosenException("选课失败");
         }
     }
