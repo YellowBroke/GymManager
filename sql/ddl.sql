@@ -24,7 +24,9 @@ CREATE TABLE gymmanager.vip_info(
     vip_name VARCHAR(50) NOT NULL COMMENT '名字',
     vip_phone_number VARCHAR(32) NOT NULL COMMENT '手机号码',
     vip_birthday VARCHAR(50) NOT NULL COMMENT '生日',
-    PRIMARY KEY(vip_id)
+    PRIMARY KEY(vip_id),
+    FOREIGN KEY(vip_phone_number) REFERENCES user_basic(username),
+    FOREIGN KEY(vip_id) REFERENCES user_basic(user_id)
 ) ENGINE = InnoDB;
 
 CREATE TABLE gymmanager.vip_card(
@@ -45,6 +47,8 @@ CREATE TABLE gymmanager.coach_info(
     coach_sex VARCHAR(10) NOT NULL COMMENT '教练性别',
     coach_sport_event VARCHAR(100) COMMENT '教练擅长项目',
     PRIMARY KEY(coach_id),
+    FOREIGN KEY(coach_phone_number) REFERENCES user_basic(username),
+    FOREIGN KEY(coach_id) REFERENCES user_basic(user_id),
     INDEX (coach_name)
 ) ENGINE = InnoDB;
 
