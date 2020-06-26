@@ -60,8 +60,10 @@ public class AuthorizationController {
         //判断身份
         if (vip != null)
             claims.put("identity","Vip");
-        if (coach != null)
+        else if (coach != null)
             claims.put("identity", "Coach");
+        else
+            claims.put("identity","null");
 
         claims.put("uid", userBasicMapper.getUserIdByName(username));
 

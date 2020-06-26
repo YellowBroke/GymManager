@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.scut.GymManager.dto.CourseInfoResponse;
 import com.scut.GymManager.dto.CourseNameRequest;
 import com.scut.GymManager.utility.SuccessResponse;
-import org.apache.commons.collections4.Get;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

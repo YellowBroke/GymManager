@@ -1,11 +1,11 @@
 package com.scut.GymManager.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Builder;
 import lombok.Data;
-import org.joda.time.LocalDateTime;
+
+import java.time.LocalDateTime;
 
 /**
  * create by YellowBroke on 2020年6月18日 21点20分

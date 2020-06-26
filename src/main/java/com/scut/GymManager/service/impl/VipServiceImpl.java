@@ -9,12 +9,12 @@ import com.scut.GymManager.mapper.*;
 import com.scut.GymManager.service.VipService;
 import com.scut.GymManager.utility.JwtUtil;
 import com.scut.GymManager.utility.UUIDUtil;
-import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 
 @Service
 public class VipServiceImpl implements VipService {
