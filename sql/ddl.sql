@@ -81,6 +81,7 @@ CREATE TABLE gymmanager.on_lesson(
 CREATE TABLE gymmanager.course_cancel(
     course_id VARCHAR(32) NOT NULL COMMENT '课程id',
     coach_id VARCHAR(32) NOT NULL COMMENT '教练id',
+    coach_name VARCHAR(50) NOT NULL COMMENT '教练名称',
     course_name VARCHAR(20) NOT NULL COMMENT '课程名称',
     course_time INT NOT NULL COMMENT '开课次数',
     max_Number INT NOT NULL COMMENT '最大选课人数',

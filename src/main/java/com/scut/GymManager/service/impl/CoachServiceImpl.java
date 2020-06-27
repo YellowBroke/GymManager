@@ -1,11 +1,13 @@
 package com.scut.GymManager.service.impl;
 
 import com.scut.GymManager.dto.CoachInfoRequest;
+import com.scut.GymManager.entity.CoachCancel;
 import com.scut.GymManager.entity.CoachInfo;
 import com.scut.GymManager.entity.UserBasic;
 import com.scut.GymManager.exception.CoachModifyException;
 import com.scut.GymManager.exception.CreateException;
 import com.scut.GymManager.exception.DeleteException;
+import com.scut.GymManager.mapper.CoachCancelMapper;
 import com.scut.GymManager.mapper.CoachMapper;
 import com.scut.GymManager.mapper.UserBasicMapper;
 import com.scut.GymManager.service.CoachService;
@@ -36,6 +38,9 @@ public class CoachServiceImpl implements CoachService{
 
     @Resource
     private UserBasicMapper userBasicMapper;
+
+    @Resource
+    private CoachCancelMapper coachCancelMapper;
 
     @Override
     @Transactional(rollbackFor = {CreateException.class})
@@ -97,7 +102,20 @@ public class CoachServiceImpl implements CoachService{
             throw new DeleteException("你没有操作权限");
         }
 
-        if(coachMapper.deleteById(coachId) != 1){
+        CoachInfo coachInfo = coachMapper.selectById(coachId);
+
+        CoachCancel coachCancel = CoachCancel.builder()
+                .coachBirth(coachInfo.getCoachBirth())
+                .coachId(coachInfo.getCoachId())
+                .coachIdCard(coachInfo.getCoachIdCard())
+                .coachName(coachInfo.getCoachName())
+                .coachPhoneNumber(coachInfo.getCoachPhoneNumber())
+                .coachSex(coachInfo.getCoachSex())
+                .coachSportEvent(coachInfo.getCoachSportEvent())
+                .build();
+
+
+        if(coachMapper.deleteById(coachId) != 1 || coachCancelMapper.insert(coachCancel) != 1){
             throw new DeleteException("删除失败");
         }
     }

@@ -12,7 +12,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.scut.GymManager.dto.CourseTimeRequest;
+import com.scut.GymManager.entity.CourseCancel;
 import com.scut.GymManager.entity.CourseTime;
+import com.scut.GymManager.mapper.CourseCancelMapper;
 import com.scut.GymManager.mapper.CourseTimeMapper;
 import com.scut.GymManager.utility.JwtUtil;
 import com.scut.GymManager.utility.UUIDUtil;
@@ -26,7 +28,7 @@ import com.scut.GymManager.dto.CourseRequest;
 import com.scut.GymManager.entity.CourseInfo;
 import com.scut.GymManager.exception.CrudException;
 import com.scut.GymManager.service.CourseInfoService;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -39,6 +41,9 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 
 	@Resource
 	private CourseTimeMapper courseTimeMapper;
+
+	@Resource
+	private CourseCancelMapper courseCancelMapper;
 
 	@Resource
 	private JwtUtil jwtUtil;
@@ -91,6 +96,7 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = {CrudException.class})
 	public void updateCourse(CourseInfo courseInfo) throws CrudException {
 
 		String uid = jwtUtil.extractUidSubject(this.httpServletRequest);
@@ -103,6 +109,7 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = {CrudException.class})
 	public void deleteCourse(String CourseId) throws CrudException {
 
 		String uid = jwtUtil.extractUidSubject(this.httpServletRequest);
@@ -110,8 +117,25 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 		if (!uid.equals("1"))
 			throw new CrudException("你没有操作权限");
 
-		int x=courseInfoMapper.deleteById(CourseId);
-		if(x==0) throw new CrudException("delete 出错");
+		QueryWrapper<CourseTime> queryWrapper = new QueryWrapper<CourseTime>().eq("course_id", CourseId);
+
+		courseTimeMapper.delete(queryWrapper);
+
+		CourseInfo courseInfo = courseInfoMapper.selectById(CourseId);
+
+		CourseCancel courseCancel = CourseCancel.builder()
+				.CourseId(courseInfo.getCourseId())
+				.CourseName(courseInfo.getCourseName())
+				.CourseTime(courseInfo.getCourseTime())
+				.Classroom(courseInfo.getClassroom())
+				.coachId(courseInfo.getCoachId())
+				.coachName(courseInfo.getCoachName())
+				.MaxNumber(courseInfo.getMaxNumber())
+				.studentNum(courseInfo.getStudentNum())
+				.build();
+
+		if (courseCancelMapper.insert(courseCancel) != 1 || courseInfoMapper.deleteById(CourseId) != 1)
+			throw new CrudException("delete 出错");
 	}
 
 	@Override
