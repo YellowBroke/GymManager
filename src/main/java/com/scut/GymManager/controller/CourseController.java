@@ -95,7 +95,7 @@ public class CourseController {
 	}
 
 	@ApiOperation("通过课程名称查看课程信息")
-	@RequestMapping(value = "/queryByName",method = RequestMethod.GET)
+	@RequestMapping(value = "/queryByName",method = RequestMethod.POST)
 	public ResponseEntity<List<CourseInfoResponse>> getCourseInfoByName(@RequestBody CourseNameRequest courseNameRequest) {
 
 		return ResponseEntity.ok(courseInfoService.getCourseInfoByName(courseNameRequest.getCourseName()));
